@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Book — Bliss</title>
+<meta name="description" content="Bliss booking flow prototype.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --peri:#8DA3D4; --peri-10:rgba(141,163,212,.10); --peri-18:rgba(141,163,212,.20);
+    --ink:#37324B; --ink-soft:#454060; --action:#6583B9; --action-dark:#54709F;
+    --bg:#F5F6FB; --card:#FFFFFE; --muted:#6E696E; --lgrey:#AAAAB4;
+    --apricot:#E8933A; --ok:#2E7D4F; --err:#B3423A;
+    --hairline:#E7E9F2;
+    --serif:"Fraunces","Noto Serif TC",Georgia,serif;
+    --sans:"Archivo","Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{background:var(--bg)}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.5;font-size:15px}
+  a{color:var(--action)}
+  :focus-visible{outline:3px solid var(--action);outline-offset:2px;border-radius:4px}
+  button{font-family:var(--sans)}
+
+  /* header */
+  .bk-head{background:var(--card);border-bottom:1px solid var(--hairline)}
+  .bk-head .inner{max-width:680px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .bk-head img{height:24px;display:block}
+  .bk-head .vend{text-align:center;min-width:0}
+  .bk-head .vend b{display:block;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .bk-head .vend span{font-size:11.5px;color:var(--muted)}
+  .bk-head .right{display:flex;gap:8px;align-items:center}
+  .x-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--hairline);background:var(--card);cursor:pointer;font-size:14px;color:var(--ink);line-height:1;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+  .x-btn:hover{border-color:var(--ink)}
+  .lang-toggle{background:transparent;border:1px solid var(--hairline);border-radius:999px;padding:5px 11px;font:600 12px var(--sans);color:var(--ink);cursor:pointer}
+
+  /* progress */
+  .prog{max-width:680px;margin:0 auto;padding:14px 20px 0}
+  .prog .label{font-size:12px;color:var(--muted);font-weight:600}
+  .prog .track{height:4px;border-radius:999px;background:var(--peri-18);margin-top:6px;overflow:hidden}
+  .prog .fill{height:100%;border-radius:999px;background:var(--peri);transition:width .25s ease-out;width:0}
+
+  /* panel */
+  .panel{max-width:680px;margin:14px auto 90px;padding:0 20px}
+  .screen{display:none}
+  .screen.on{display:block;animation:rise .3s ease-out}
+  @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .screen h1{font-size:21px;font-weight:800;letter-spacing:-.015em;margin-bottom:4px}
+  .screen .sub{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+  .card-box{background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:16px}
+  .card-box + .card-box{margin-top:12px}
+
+  /* chips / tabs */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .tab{border:1px solid var(--hairline);cursor:pointer;border-radius:999px;padding:7px 15px;font:600 13px var(--sans);background:var(--card);color:var(--ink)}
+  .tab:hover{border-color:var(--ink)}
+  .tab.active{background:var(--ink);border-color:var(--ink);color:#FEFEFF}
+  .big-tabs{display:flex;background:var(--peri-18);border-radius:999px;padding:4px;margin-bottom:16px}
+  .big-tab{flex:1;border:0;border-radius:999px;padding:9px;font:700 13.5px var(--sans);background:transparent;color:var(--ink-soft);cursor:pointer}
+  .big-tab.active{background:var(--card);box-shadow:0 1px 4px rgba(55,50,75,.12)}
+
+  /* guests */
+  .guest-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .guest-row .lbl{font-size:13.5px;font-weight:700}
+  .stepper{display:flex;align-items:center;gap:12px}
+  .stepper button{width:30px;height:30px;border-radius:50%;border:1px solid var(--hairline);background:var(--card);font-size:15px;cursor:pointer;color:var(--ink)}
+  .stepper button:disabled{opacity:.35;cursor:default}
+  .stepper b{min-width:16px;text-align:center;font-variant-numeric:tabular-nums}
+  .guest-pills{display:flex;gap:8px;margin-bottom:12px}
+  .guest-pill{border:1px solid var(--hairline);border-radius:999px;padding:7px 16px;font:600 13px var(--sans);background:var(--card);cursor:pointer;color:var(--ink)}
+  .guest-pill.active{background:var(--peri);border-color:var(--peri);color:#FEFEFF}
+
+  /* service rows */
+  .svc-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--hairline)}
+  .svc-row:last-child{border-bottom:0}
+  .svc-row.hide{display:none}
+  .svc-row h3{font-size:14.5px;font-weight:700}
+  .svc-row .m{font-size:12.5px;color:var(--muted)}
+  .svc-row .p{font-size:13.5px;font-weight:700;white-space:nowrap}
+  .add-btn{border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 16px;font:700 12.5px var(--sans);cursor:pointer;white-space:nowrap}
+  .add-btn.on{background:var(--ink);color:#FEFEFF}
+
+  /* summary */
+  .summary{background:var(--peri-10);border:1px solid var(--peri-18);border-radius:14px;padding:14px 16px;margin-top:14px;font-size:13.5px}
+  .summary h4{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
+  .summary .line{display:flex;justify-content:space-between;padding:3px 0}
+  .summary .line span:last-child{font-variant-numeric:tabular-nums}
+  .summary .tot{border-top:1px solid var(--peri-18);margin-top:8px;padding-top:8px;font-weight:800}
+  .warn{margin-top:10px;font-size:12.5px;color:var(--err);display:none}
+  .warn.show{display:block}
+
+  /* date strip */
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:16px}
+  .day{border:1px solid var(--hairline);border-radius:12px;padding:9px 2px;text-align:center;background:var(--card);cursor:pointer}
+  .day .dw{font-size:10.5px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
+  .day .dn{font-size:16px;font-weight:800;margin-top:2px;font-variant-numeric:tabular-nums}
+  .day.active{border-color:var(--ink);background:var(--ink);color:#FEFEFF}
+  .day.active .dw{color:rgba(254,254,255,.75)}
+
+  /* slots */
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .slot{border:1px solid var(--hairline);border-radius:10px;padding:10px 4px;text-align:center;font:600 13px var(--sans);background:var(--card);cursor:pointer;color:var(--ink);font-variant-numeric:tabular-nums}
+  .slot:hover{border-color:var(--ink)}
+  .slot.active{background:var(--action);border-color:var(--action);color:#FEFEFF}
+  .slot:disabled{color:var(--lgrey);background:var(--bg);cursor:default;border-color:var(--hairline)}
+  .staff-pref{margin-top:16px}
+  .staff-pref label{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);font-weight:700}
+  .staff-pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+  /* class list */
+  .cls{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--hairline);cursor:pointer}
+  .cls:last-child{border-bottom:0}
+  .cls:hover h3{color:var(--action)}
+  .cls .av{width:42px;height:42px;border-radius:50%;background:var(--peri-18);color:var(--ink-soft);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none}
+  .cls .info{flex:1;min-width:0}
+  .cls h3{font-size:14.5px;font-weight:700}
+  .cls .m{font-size:12.5px;color:var(--muted)}
+  .cls .spots{font-size:11.5px;font-weight:700;color:var(--ok);white-space:nowrap}
+  .cls .spots.low{color:var(--apricot)}
+  .coach-first{margin-top:14px;text-align:center}
+  .coach-first button{background:none;border:0;color:var(--action);font:600 13.5px var(--sans);cursor:pointer;text-decoration:underline}
+
+  /* class detail / coach */
+  .detail-top{display:flex;gap:14px;align-items:center;margin-bottom:14px}
+  .detail-top .av{width:54px;height:54px;border-radius:50%;background:var(--peri-18);color:var(--ink-soft);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800}
+  .detail-top b{display:block;font-size:15px}
+  .detail-top span{font-size:12.5px;color:var(--muted)}
+  .kv{display:flex;gap:8px;font-size:13.5px;padding:5px 0}
+  .kv .ic{width:20px;text-align:center;opacity:.7}
+  .desc{font-size:13.5px;color:var(--ink-soft);margin-top:10px}
+  .coach-card{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--hairline);cursor:pointer}
+  .coach-card:last-child{border-bottom:0}
+  .coach-card .av{width:46px;height:46px;border-radius:50%;background:var(--peri-18);color:var(--ink-soft);display:flex;align-items:center;justify-content:center;font-weight:800}
+  .coach-card h3{font-size:14.5px;font-weight:700}
+  .coach-card .m{font-size:12.5px;color:var(--muted)}
+  .coach-card .r{font-size:12.5px;font-weight:700;white-space:nowrap}
+  .coach-card .r .star{color:var(--apricot)}
+
+  /* form */
+  .frm label{display:block;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;margin:14px 0 5px}
+  .frm input[type=text],.frm input[type=email],.frm input[type=tel],.frm textarea{width:100%;border:1px solid var(--hairline);border-radius:10px;padding:11px 13px;font:14px var(--sans);color:var(--ink);background:var(--card)}
+  .frm textarea{min-height:70px;resize:vertical}
+  .frm .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .frm input.bad{border-color:var(--err)}
+  .checks{margin-top:16px}
+  .check{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13.5px}
+  .check input{width:17px;height:17px;margin-top:2px;accent-color:var(--action)}
+  .check .hint{display:block;font-size:11.5px;color:var(--muted)}
+  .login-hint{font-size:13px;color:var(--muted);margin-bottom:14px}
+
+  /* confirm */
+  .promo-row{display:flex;gap:8px;margin-top:12px}
+  .promo-row input{flex:1;border:1px solid var(--hairline);border-radius:10px;padding:10px 13px;font:14px var(--sans);text-transform:uppercase}
+  .promo-row button{border:0;background:var(--ink);color:#FEFEFF;border-radius:999px;padding:0 18px;font:700 13px var(--sans);cursor:pointer}
+  .promo-ok{display:none;margin-top:10px;background:#EDF6EF;border-radius:10px;padding:10px 13px;font-size:13px;color:var(--ok);justify-content:space-between}
+  .promo-ok.show{display:flex}
+  .promo-ok button{background:none;border:0;color:var(--muted);cursor:pointer;font-size:12.5px}
+  .promo-err{display:none;margin-top:8px;font-size:12.5px;color:var(--err)}
+  .promo-err.show{display:block}
+
+  /* success */
+  .success-wrap{text-align:center;padding-top:8px}
+  .success-wrap .mark{width:74px;height:74px;margin:0 auto 14px;background:var(--peri);border-radius:100% 100% 0 100%;display:flex;align-items:center;justify-content:center;color:#FEFEFF;font-size:30px;transform:rotate(45deg)}
+  .success-wrap .mark span{transform:rotate(-45deg)}
+  .success-wrap h1{font-family:var(--serif);font-weight:600;font-size:26px}
+  .recap{text-align:left;margin-top:18px}
+  .recap .kv b{font-weight:700}
+  .succ-actions{display:flex;gap:10px;margin-top:16px}
+  .succ-actions .btn{flex:1}
+  #s8.screen.on{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M20 20 h34 a34 34 0 0 1 -34 34 z M66 20 h34 v34 a34 34 0 0 1 -34 -34 z M20 66 a34 34 0 0 1 34 34 h-34 z M66 66 a34 34 0 0 0 34 34 v-34 z' fill='none' stroke='rgba(141,163,212,.16)' stroke-width='1.2'/%3E%3C/svg%3E");border-radius:16px;padding:20px}
+
+  /* bookings list */
+  .bkg{padding:14px 0;border-bottom:1px solid var(--hairline)}
+  .bkg:last-child{border-bottom:0}
+  .bkg .top{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .bkg h3{font-size:14.5px;font-weight:700}
+  .bkg .st{font-size:11.5px;font-weight:700;border-radius:999px;padding:2px 10px}
+  .st.up{background:var(--peri-10);color:var(--action)}
+  .st.done{background:var(--bg);color:var(--muted)}
+  .st.off{background:#F9ECEA;color:var(--err)}
+  .bkg .m{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .bkg .row-actions{margin-top:9px;display:flex;gap:10px;align-items:center}
+  .cancel-btn{border:1.5px solid var(--hairline);background:transparent;border-radius:999px;padding:6px 15px;font:700 12.5px var(--sans);cursor:pointer;color:var(--ink)}
+  .cancel-btn:hover{border-color:var(--err);color:var(--err)}
+  .cancel-btn:disabled{color:var(--lgrey);cursor:default;border-color:var(--hairline)}
+  .rule-note{font-size:11.5px;color:var(--muted)}
+
+  /* footer bar */
+  .bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--hairline);z-index:40}
+  .bar .inner{max-width:680px;margin:0 auto;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;border-radius:999px;padding:12px 26px;font:700 14.5px var(--sans);text-decoration:none;transition:background .15s ease-out}
+  .btn-primary{background:var(--ink);color:#FEFEFF}
+  .btn-primary:hover{background:var(--action)}
+  .btn-primary:disabled{background:var(--lgrey);cursor:default}
+  .btn-ghost{background:transparent;border:1.5px solid var(--hairline);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .bar .total{font-size:13px;color:var(--muted)}
+  .bar .total b{display:block;font-size:16px;color:var(--ink);font-variant-numeric:tabular-nums}
+
+  /* dialog */
+  .modal-wrap{position:fixed;inset:0;background:rgba(55,50,75,.45);display:none;align-items:center;justify-content:center;z-index:90;padding:24px}
+  .modal-wrap.show{display:flex}
+  .modal{background:var(--card);border-radius:16px;padding:26px;max-width:380px;width:100%;text-align:center}
+  .modal h3{font-size:17px;font-weight:800}
+  .modal p{font-size:13.5px;color:var(--muted);margin-top:8px}
+  .modal .acts{display:flex;gap:10px;margin-top:18px}
+  .modal .acts .btn{flex:1;padding:11px}
+
+  .demo-links{max-width:680px;margin:0 auto;padding:10px 20px 24px;font-size:12px;color:var(--muted);text-align:center}
+  .demo-links a{margin:0 5px}
+
+  @media (max-width:560px){
+    .slots{grid-template-columns:repeat(3,1fr)}
+    .frm .grid2{grid-template-columns:1fr}
+    .panel{margin-bottom:96px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="bk-head">
+  <div class="inner">
+    <a href="index.html" aria-label="Bliss home"><img src="assets/bliss-horizontal-periwinkle.svg" alt="bliss"></a>
+    <div class="vend"><b id="vendName"></b><span id="vendMeta"></span></div>
+    <div class="right">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">繁</button>
+      <a class="x-btn" href="vendor.html" aria-label="Close booking">✕</a>
+    </div>
+  </div>
+</header>
+
+<div class="prog" id="prog">
+  <div class="label"><span id="progLabel"></span></div>
+  <div class="track"><div class="fill" id="progFill"></div></div>
+</div>
+
+<main class="panel">
+
+  <!-- S1 service picker -->
+  <section class="screen" id="s1">
+    <h1 data-i18n="s1_h"></h1>
+    <p class="sub" data-i18n="s1_sub"></p>
+    <div class="card-box">
+      <div class="guest-row"><span class="lbl" data-i18n="guests"></span>
+        <div class="stepper"><button id="gMinus" aria-label="Fewer guests">−</button><b id="gCount">1</b><button id="gPlus" aria-label="More guests">＋</button></div>
+      </div>
+      <div class="guest-pills" id="guestPills"></div>
+      <div class="tabs" id="svcTabs"></div>
+      <div id="svcList"></div>
+    </div>
+    <div class="summary" id="svcSummary"></div>
+    <p class="warn" id="svcWarn" data-i18n="s1_warn"></p>
+  </section>
+
+  <!-- S2 date & time (service) / hybrid host -->
+  <section class="screen" id="s2">
+    <h1 data-i18n="s2_h"></h1>
+    <p class="sub" id="s2sub"></p>
+    <div class="big-tabs" id="hybridTabs" style="display:none">
+      <button class="big-tab active" data-htab="class" data-i18n="tab_class"></button>
+      <button class="big-tab" data-htab="service" data-i18n="tab_service"></button>
+    </div>
+    <div class="days" id="dayStrip"></div>
+    <div id="s2service">
+      <div class="card-box"><div class="slots" id="slotGrid"></div></div>
+      <div class="staff-pref" id="staffPref">
+        <label data-i18n="staff_l"></label>
+        <div class="staff-pills" id="staffPills"></div>
+      </div>
+    </div>
+    <div id="s2class" style="display:none">
+      <div class="card-box" id="classList"></div>
+      <div class="coach-first" id="coachFirst"><button data-i18n="coach_first"></button></div>
+    </div>
+  </section>
+
+  <!-- S4 class detail -->
+  <section class="screen" id="s4">
+    <h1 id="clsName"></h1>
+    <p class="sub" id="clsWhen"></p>
+    <div class="card-box">
+      <div class="detail-top"><span class="av" id="clsAv"></span><div><b id="clsCoach"></b><span id="clsCoachExp"></span></div></div>
+      <div class="kv"><span class="ic">🕐</span><span id="clsDur"></span></div>
+      <div class="kv"><span class="ic">📍</span><span id="clsLoc"></span></div>
+      <div class="kv"><span class="ic">👥</span><span id="clsSpots"></span></div>
+      <p class="desc" id="clsDesc"></p>
+    </div>
+  </section>
+
+  <!-- S5 coach picker -->
+  <section class="screen" id="s5">
+    <h1 data-i18n="s5_h"></h1>
+    <p class="sub" data-i18n="s5_sub"></p>
+    <div class="card-box" id="coachList"></div>
+    <div id="coachCal" style="display:none;margin-top:14px">
+      <p class="sub" id="coachCalName" style="margin-bottom:10px"></p>
+      <div class="days" id="coachDays"></div>
+      <div class="card-box"><div class="slots" id="coachSlots"></div></div>
+    </div>
+  </section>
+
+  <!-- S6 contact -->
+  <section class="screen" id="s6">
+    <h1 data-i18n="s6_h"></h1>
+    <p class="login-hint"><span data-i18n="s6_member"></span> <a href="#" id="loginLink" data-i18n="s6_login"></a></p>
+    <div class="card-box frm">
+      <div class="grid2">
+        <div><label data-i18n="f_first"></label><input type="text" id="fFirst" autocomplete="given-name"></div>
+        <div><label data-i18n="f_last"></label><input type="text" id="fLast" autocomplete="family-name"></div>
+      </div>
+      <label data-i18n="f_email"></label><input type="email" id="fEmail" placeholder="your@email.com" autocomplete="email">
+      <label data-i18n="f_phone"></label><input type="tel" id="fPhone" placeholder="(852) 0000 0000" autocomplete="tel">
+      <div id="g2fields" style="display:none">
+        <label data-i18n="f_g2"></label><input type="text" id="fG2">
+      </div>
+      <label data-i18n="f_notes"></label><textarea id="fNotes" data-i18n-ph="f_notes_ph"></textarea>
+      <div class="checks">
+        <label class="check"><input type="checkbox" id="cMarketing"><span><span data-i18n="c_mkt"></span><span class="hint" data-i18n="c_mkt_h"></span></span></label>
+        <label class="check"><input type="checkbox" id="cPrivacy"><span><span data-i18n="c_priv"></span><span class="hint" data-i18n="c_priv_h"></span></span></label>
+        <label class="check"><input type="checkbox" id="cWaiver"><span data-i18n="c_waiv"></span></label>
+      </div>
+      <p class="warn" id="frmWarn" data-i18n="s6_warn"></p>
+    </div>
+  </section>
+
+  <!-- S7 confirm -->
+  <section class="screen" id="s7">
+    <h1 data-i18n="s7_h"></h1>
+    <p class="sub" data-i18n="s7_sub"></p>
+    <div class="card-box">
+      <div id="confLines"></div>
+      <div class="promo-row">
+        <input id="promoIn" data-i18n-ph="promo_ph" aria-label="Promo code">
+        <button id="promoBtn" data-i18n="apply"></button>
+      </div>
+      <div class="promo-ok" id="promoOk"><span id="promoOkTxt"></span><button id="promoRm" data-i18n="remove"></button></div>
+      <p class="promo-err" id="promoErr" data-i18n="promo_err"></p>
+      <div class="summary" style="margin-top:14px" id="confTotals"></div>
+    </div>
+  </section>
+
+  <!-- S8 success -->
+  <section class="screen" id="s8">
+    <div class="success-wrap">
+      <div class="mark"><span>✓</span></div>
+      <h1 data-i18n="s8_h"></h1>
+      <p class="sub" data-i18n="s8_sub"></p>
+      <div class="card-box recap" id="recap"></div>
+      <div class="succ-actions">
+        <button class="btn btn-ghost" id="shareBtn" data-i18n="share"></button>
+        <button class="btn btn-ghost" id="calBtn" data-i18n="add_cal"></button>
+      </div>
+      <p style="margin-top:16px;font-size:13.5px"><a href="#" id="toBookings" data-i18n="view_bkgs"></a></p>
+    </div>
+  </section>
+
+  <!-- S9 my bookings -->
+  <section class="screen" id="s9">
+    <h1 data-i18n="s9_h"></h1>
+    <p class="sub" data-i18n="s9_sub"></p>
+    <div class="card-box" id="bkgList"></div>
+  </section>
+</main>
+
+<div class="bar" id="bar">
+  <div class="inner">
+    <button class="btn btn-ghost" id="backBtn" data-i18n="back"></button>
+    <div class="total" id="barTotal"></div>
+    <button class="btn btn-primary" id="nextBtn"></button>
+  </div>
+</div>
+
+<div class="modal-wrap" id="cancelWrap" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3 data-i18n="cx_h"></h3>
+    <p id="cxText"></p>
+    <div class="acts">
+      <button class="btn btn-ghost" id="cxNo" data-i18n="cx_keep"></button>
+      <button class="btn btn-primary" id="cxYes" style="background:var(--err)" data-i18n="cx_yes"></button>
+    </div>
+  </div>
+</div>
+
+<div class="demo-links">
+  <span data-i18n="demo"></span>
+  <a href="booking.html?mode=service" data-i18n="d_svc"></a>·
+  <a href="booking.html?mode=class" data-i18n="d_cls"></a>·
+  <a href="booking.html?mode=hybrid" data-i18n="d_hyb"></a>
+</div>
+
+<script>
+/* ================= data ================= */
+const DISTRICTS = {
+  "sheung wan":{en:"Sheung Wan", zh:"上環"},
+  "kwun tong":{en:"Kwun Tong", zh:"觀塘"},
+  "sai ying pun":{en:"Sai Ying Pun", zh:"西營盤"}
+};
+const VENDORS = {
+  serenity: {
+    name:"Serenity Foot & Body 舒心養生", district:"sheung wan", type:"service",
+    addr_en:"88 Bonham Strand", addr_zh:"文咸東街88號",
+    cats:[{id:"foot",en:"Foot",zh:"足部"},{id:"body",en:"Body",zh:"全身"},{id:"tcm",en:"TCM",zh:"中醫"}],
+    services:[
+      {id:"sv1",cat:"foot",en:"Signature foot massage",zh:"招牌腳底按摩",min:60,price:268},
+      {id:"sv2",cat:"foot",en:"Foot + shoulder combo",zh:"足肩組合",min:90,price:368},
+      {id:"sv3",cat:"foot",en:"Herbal foot soak",zh:"草本足浴",min:30,price:168},
+      {id:"sv4",cat:"body",en:"Full-body oil massage",zh:"全身油壓按摩",min:60,price:438},
+      {id:"sv5",cat:"body",en:"Hot stone therapy",zh:"熱石理療",min:90,price:588},
+      {id:"sv6",cat:"tcm",en:"Gua sha + cupping",zh:"刮痧＋拔罐",min:45,price:328}
+    ],
+    staff:[{id:"any"},{id:"mei",n:"Mei"},{id:"kayan",n:"Ka-Yan"},{id:"fai",n:"Fai"}]
+  },
+  rally: {
+    name:"Rally Point Pickleball", district:"kwun tong", type:"class",
+    addr_en:"3/F, 55 Hoi Yuen Road", addr_zh:"開源道55號3樓",
+    coaches:[
+      {id:"marco",n:"Marco",en:"Head coach · competition prep",zh:"總教練 · 賽事訓練",exp_en:"8 years coaching",exp_zh:"8年教學經驗",r:"4.9"},
+      {id:"elaine",n:"Elaine",en:"Beginner and social play",zh:"新手及社交球局",exp_en:"5 years coaching",exp_zh:"5年教學經驗",r:"4.8"},
+      {id:"jojo",n:"Jojo",en:"Youth and family sessions",zh:"青少年及親子班",exp_en:"4 years coaching",exp_zh:"4年教學經驗",r:"4.8"}
+    ],
+    classes:[
+      {id:"c1",en:"Beginner clinic",zh:"新手訓練班",coach:"elaine",dur:60,price:180,spots:6,desc_en:"Learn scoring, serving and kitchen rules from zero. Paddles provided, no experience needed.",desc_zh:"由零開始學計分、發球及廚房區規則。提供球拍，無需經驗。"},
+      {id:"c2",en:"Open rally night",zh:"公開對打之夜",coach:"marco",dur:90,price:150,spots:2,desc_en:"Rotating doubles for confident players. Matched by level on arrival.",desc_zh:"進階球員輪換雙打，到場按程度配對。"},
+      {id:"c3",en:"Drill and skills",zh:"技術操練班",coach:"marco",dur:60,price:220,spots:4,desc_en:"Footwork, third-shot drops and dink control with video feedback.",desc_zh:"步法、三拍吊球及網前控制，附影片分析。"},
+      {id:"c4",en:"Family session",zh:"親子時段",coach:"jojo",dur:60,price:140,spots:8,desc_en:"Parents and kids on court together. Soft balls, small courts, big fun.",desc_zh:"大人細路同場開波。軟球細場，輕鬆好玩。"}
+    ]
+  },
+  moon: {
+    name:"Moon Yoga Studio 月瑜伽", district:"sai ying pun", type:"hybrid",
+    addr_en:"12 High Street", addr_zh:"高街12號",
+    cats:[{id:"priv",en:"Private",zh:"私人課"}],
+    services:[
+      {id:"m1",cat:"priv",en:"Private yoga 1-on-1",zh:"一對一私人瑜伽",min:60,price:580},
+      {id:"m2",cat:"priv",en:"Private duo session",zh:"雙人私人課",min:60,price:880},
+      {id:"m3",cat:"priv",en:"Stretch therapy",zh:"伸展治療",min:45,price:480}
+    ],
+    staff:[{id:"any"},{id:"erika",n:"Erika"},{id:"connie",n:"Connie"}],
+    coaches:[
+      {id:"erika",n:"Erika",en:"Vinyasa and mindful movement",zh:"流瑜伽及正念運動",exp_en:"6 years teaching",exp_zh:"6年教學經驗",r:"5.0"},
+      {id:"connie",n:"Connie",en:"Yin, stretch and recovery",zh:"陰瑜伽及伸展恢復",exp_en:"7 years teaching",exp_zh:"7年教學經驗",r:"4.9"}
+    ],
+    classes:[
+      {id:"y1",en:"Morning vinyasa flow",zh:"晨早流瑜伽",coach:"erika",dur:45,price:150,spots:5,desc_en:"Wake the body with breath-led movement. All levels welcome.",desc_zh:"以呼吸帶動身體。任何程度適合。"},
+      {id:"y2",en:"Yin and deep stretch",zh:"陰瑜伽深層伸展",coach:"connie",dur:60,price:150,spots:3,desc_en:"Long-held floor poses to release hips and back.",desc_zh:"長時間地面體式，放鬆髖部與背部。"},
+      {id:"y3",en:"Core strength basics",zh:"核心力量基礎",coach:"erika",dur:45,price:170,spots:7,desc_en:"Controlled core work for posture and balance.",desc_zh:"針對姿勢與平衡的核心訓練。"}
+    ]
+  }
+};
+const TIMES = ["10:00","10:45","11:30","12:15","14:00","14:45","15:30","16:15","17:00","17:45","18:30","19:15","20:00","20:45"];
+const CLASS_TIMES = ["07:00","09:30","12:30","18:00","19:30"];
+
+/* ================= i18n ================= */
+const STR = {
+ en:{
+  back:"Back", next:"Next", pay:"Pay", done:"Done", book_class:"Book this class",
+  guests:"Guests", guest:"Guest",
+  s1_h:"Choose services", s1_sub:"Pick at least one service for each guest.",
+  s1_warn:"Choose at least one service for every guest before continuing.",
+  s2_h:"Pick a date and time", tab_class:"Classes", tab_service:"Private sessions",
+  s2_sub_svc:"Times shown for", s2_sub_cls:"Classes on",
+  staff_l:"Therapist", any:"Any available",
+  coach_first:"Or choose a coach first",
+  s5_h:"Choose your coach", s5_sub:"Book around the person, not just the timetable.",
+  s5_cal:"'s available sessions",
+  s6_h:"Your details", s6_member:"Already a member?", s6_login:"Log in",
+  s6_warn:"Fill the required fields and accept the privacy policy and waiver.",
+  f_first:"First name*", f_last:"Last name*", f_email:"Email*", f_phone:"Phone*",
+  f_g2:"Guest 2 name", f_notes:"Notes", f_notes_ph:"Any requests, accessibility needs or preferences",
+  c_mkt:"Send me offers and news", c_mkt_h:"Unsubscribe any time",
+  c_priv:"I agree to the privacy policy*", c_priv_h:"Needed to process your booking",
+  c_waiv:"I accept the liability waiver*",
+  s7_h:"Confirm and pay", s7_sub:"Check everything, then pay to lock in your booking.",
+  promo_ph:"Promo code", apply:"Apply", remove:"Remove", promo_err:"That code doesn't work. Try NEWCLIENT.",
+  promo_applied:"Code applied: NEWCLIENT · new client offer − HK$50",
+  subtotal:"Subtotal", discount:"Promo discount", total:"Total",
+  s8_h:"Booking confirmed", s8_sub:"A confirmation is on its way to your email and WhatsApp.",
+  share:"Share", add_cal:"Add to calendar", view_bkgs:"View my bookings",
+  s9_h:"My bookings", s9_sub:"Cancel free of charge up to 48 hours before your visit.",
+  st_up:"Upcoming", st_done:"Completed", st_off:"Cancelled",
+  cancel:"Cancel booking", rule_in48:"Starts within 48 hours · can no longer be cancelled",
+  cx_h:"Cancel this booking?", cx_keep:"Keep it", cx_yes:"Cancel booking",
+  cx_txt:"is more than 48 hours away, so cancellation is free.",
+  min:"min", at:"at", with:"with", spots_left:"spots left", spot_low:"Almost full ·",
+  summary:"Booking summary", none_chosen:"No services chosen yet",
+  copied:"Booking details copied to clipboard",
+  demo:"Demo flows:", d_svc:"Wellness (services)", d_cls:"Sports (classes)", d_hyb:"Hybrid",
+  steps:["Choose","Time","Details","Confirm"],
+  days_s:["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]
+ },
+ zh:{
+  back:"上一步", next:"下一步", pay:"付款", done:"完成", book_class:"預約此課堂",
+  guests:"人數", guest:"客人",
+  s1_h:"選擇服務", s1_sub:"請為每位客人選擇至少一項服務。",
+  s1_warn:"請先為每位客人選擇至少一項服務。",
+  s2_h:"選擇日期及時間", tab_class:"課堂", tab_service:"私人課",
+  s2_sub_svc:"顯示時段：", s2_sub_cls:"課堂日期：",
+  staff_l:"師傅", any:"任何師傅",
+  coach_first:"或先揀教練",
+  s5_h:"選擇教練", s5_sub:"跟人預約，唔只跟時間表。",
+  s5_cal:"的可約時段",
+  s6_h:"聯絡資料", s6_member:"已經係會員？", s6_login:"登入",
+  s6_warn:"請填妥必填欄位，並同意私隱政策及免責條款。",
+  f_first:"名字*", f_last:"姓氏*", f_email:"電郵*", f_phone:"電話*",
+  f_g2:"第二位客人姓名", f_notes:"備註", f_notes_ph:"任何要求、無障礙需要或偏好",
+  c_mkt:"接收優惠及最新消息", c_mkt_h:"可隨時取消訂閱",
+  c_priv:"我同意私隱政策*", c_priv_h:"處理你的預約所需",
+  c_waiv:"我接受免責條款*",
+  s7_h:"確認及付款", s7_sub:"核對無誤後付款，即完成預約。",
+  promo_ph:"優惠碼", apply:"套用", remove:"移除", promo_err:"此優惠碼無效。試下 NEWCLIENT。",
+  promo_applied:"已套用：NEWCLIENT · 新客優惠 − HK$50",
+  subtotal:"小計", discount:"優惠碼折扣", total:"總價格",
+  s8_h:"預訂成功", s8_sub:"確認資料已發送至你的電郵及WhatsApp。",
+  share:"分享", add_cal:"加到日曆", view_bkgs:"查看我的預約",
+  s9_h:"我的預約", s9_sub:"到訪前48小時可免費取消。",
+  st_up:"即將到來", st_done:"已完成", st_off:"已取消",
+  cancel:"取消預約", rule_in48:"48小時內開始 · 已不可取消",
+  cx_h:"取消此預約？", cx_keep:"保留", cx_yes:"確認取消",
+  cx_txt:"距離開始超過48小時，免費取消。",
+  min:"分鐘", at:"於", with:"教練：", spots_left:"個名額", spot_low:"即將爆滿 ·",
+  summary:"預訂摘要", none_chosen:"未選擇任何服務",
+  copied:"預約資料已複製",
+  demo:"示範流程：", d_svc:"養生（服務）", d_cls:"運動（課堂）", d_hyb:"混合",
+  steps:["選擇","時間","資料","確認"],
+  days_s:["日","一","二","三","四","五","六"]
+ }
+};
+
+/* ================= state ================= */
+const params = new URLSearchParams(location.search);
+const mode = ['service','class','hybrid'].includes(params.get('mode')) ? params.get('mode') : 'service';
+const vendor = VENDORS[mode==='service'?'serenity':mode==='class'?'rally':'moon'];
+let lang = 'en';
+const S = {
+  guests:1, activeGuest:0, picks:[[],[]],       // service ids per guest
+  day:0, time:null, staff:'any',
+  hybridTab: mode==='hybrid' ? 'class' : (vendor.type==='class'?'class':'service'),
+  cls:null, coach:null, coachDay:0, coachTime:null,
+  promo:false, screen:null, stack:[]
+};
+const preSvc = params.get('svc');
+if(preSvc && vendor.services && vendor.services.some(s=>s.id===preSvc)) S.picks[0].push(preSvc);
+
+const BOOKINGS = [
+  {vendor:"Fairway Indoor Golf 室內高球", what_en:"Sim bay · 1 hour", what_zh:"模擬球道 · 1小時", offsetH:30, status:"up"},
+  {vendor:"Jade Spa 玉泉水療", what_en:"Aromatherapy massage · 90 min", what_zh:"香薰按摩 · 90分鐘", offsetH:-90, status:"done"}
+];
+
+/* ================= helpers ================= */
+const $=id=>document.getElementById(id);
+const T=()=>STR[lang];
+const dLabel=(k)=>DISTRICTS[k]?DISTRICTS[k][lang]:k;
+function dayDate(i){ const d=new Date(); d.setDate(d.getDate()+i); return d; }
+function fmtDay(d){ return `${T().days_s[d.getDay()]} ${d.getDate()}`; }
+function fmtFull(d){
+  return lang==='en'
+    ? d.toLocaleDateString('en-GB',{weekday:'long', day:'numeric', month:'long'})
+    : d.toLocaleDateString('zh-HK',{weekday:'long', month:'long', day:'numeric'});
+}
+function svcById(id){ return vendor.services.find(s=>s.id===id); }
+function clsById(id){ return vendor.classes.find(c=>c.id===id); }
+function coachById(id){ return vendor.coaches.find(c=>c.id===id); }
+function money(n){ return 'HK$'+n.toLocaleString(); }
+function slotOff(di,ti){ return (di*3+ti)%5===2; }
+
+/* ================= flow ================= */
+function seq(){
+  if(S.hybridTab==='class' && (mode==='class'||mode==='hybrid')){
+    return S.coach? ['s5','s6','s7','s8'] : ['s2','s4','s6','s7','s8'];
+  }
+  return ['s1','s2','s6','s7','s8'];
+}
+function stageOf(id){
+  if(id==='s1'||id==='s4'||id==='s5') return 0;
+  if(id==='s2') return (mode==='service'||S.hybridTab==='service') && seq()[0]==='s1' ? 1 : 0;
+  if(id==='s6') return 2;
+  if(id==='s7') return 3;
+  return 3;
+}
+function show(id, push=true){
+  if(push && S.screen) S.stack.push(S.screen);
+  S.screen=id;
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  $(id).classList.add('on');
+  render(id);
+  renderBar();
+  renderProg();
+  scrollTo({top:0, behavior:'auto'});
+}
+function goBack(){
+  const prev=S.stack.pop();
+  if(prev) show(prev,false); else location.href='vendor.html';
+}
+
+/* ================= renders ================= */
+function renderHead(){
+  $('vendName').textContent = vendor.name;
+  $('vendMeta').textContent = dLabel(vendor.district) + ' · ' + (lang==='en'?vendor.addr_en:vendor.addr_zh);
+}
+function renderProg(){
+  const st = stageOf(S.screen);
+  if(S.screen==='s8'||S.screen==='s9'){ $('prog').style.visibility='hidden'; return; }
+  $('prog').style.visibility='visible';
+  $('progLabel').textContent = T().steps[st] + ' · ' + (st+1) + '/4';
+  $('progFill').style.width = ((st+1)/4*100)+'%';
+}
+function renderGuests(){
+  $('gCount').textContent=S.guests;
+  $('gMinus').disabled = S.guests<=1;
+  $('gPlus').disabled = S.guests>=2;
+  const gp=$('guestPills'); gp.innerHTML='';
+  if(S.guests>1){
+    for(let i=0;i<S.guests;i++){
+      const b=document.createElement('button');
+      b.type='button'; b.className='guest-pill'+(i===S.activeGuest?' active':'');
+      b.textContent=`${T().guest} ${i+1}`;
+      b.onclick=()=>{S.activeGuest=i;renderGuests();renderSvcList();};
+      gp.appendChild(b);
+    }
+  } else S.activeGuest=0;
+}
+let svcCat='all';
+function renderSvcTabs(){
+  const el=$('svcTabs'); el.innerHTML='';
+  const cats=[{id:'all',en:'All',zh:'全部'},...vendor.cats];
+  cats.forEach(c=>{
+    const b=document.createElement('button');
+    b.type='button'; b.className='tab'+(svcCat===c.id?' active':'');
+    b.textContent=c[lang];
+    b.onclick=()=>{svcCat=c.id;renderSvcTabs();renderSvcList();};
+    el.appendChild(b);
+  });
+}
+function renderSvcList(){
+  const el=$('svcList'); el.innerHTML='';
+  vendor.services.forEach(s=>{
+    if(svcCat!=='all'&&s.cat!==svcCat) return;
+    const on=S.picks[S.activeGuest].includes(s.id);
+    const row=document.createElement('div'); row.className='svc-row';
+    row.innerHTML=`<div><h3>${s[lang]}</h3><p class="m">${s.min} ${T().min}</p></div>
+      <div style="display:flex;align-items:center;gap:12px"><span class="p">${money(s.price)}</span>
+      <button type="button" class="add-btn${on?' on':''}">${on?'✓':'＋'}</button></div>`;
+    row.querySelector('.add-btn').onclick=()=>{
+      const arr=S.picks[S.activeGuest];
+      const i=arr.indexOf(s.id);
+      if(i>=0) arr.splice(i,1); else arr.push(s.id);
+      renderSvcList(); renderSummary(); renderBar();
+      $('svcWarn').classList.remove('show');
+    };
+    el.appendChild(row);
+  });
+  renderSummary();
+}
+function renderSummary(){
+  const el=$('svcSummary');
+  let html=`<h4>${T().summary}</h4>`; let tot=0; let any=false;
+  for(let g=0; g<S.guests; g++){
+    if(S.guests>1) html+=`<div class="line" style="font-weight:700"><span>${T().guest} ${g+1}</span><span></span></div>`;
+    S.picks[g].forEach(id=>{
+      const s=svcById(id); tot+=s.price; any=true;
+      html+=`<div class="line"><span>${s[lang]}</span><span>${money(s.price)}</span></div>`;
+    });
+  }
+  if(!any) html+=`<div class="line"><span style="color:var(--muted)">${T().none_chosen}</span><span></span></div>`;
+  html+=`<div class="line tot"><span>${T().total}</span><span>${money(tot)}</span></div>`;
+  el.innerHTML=html;
+}
+function renderDays(el, activeIdx, onPick){
+  el.innerHTML='';
+  for(let i=0;i<7;i++){
+    const d=dayDate(i);
+    const b=document.createElement('button');
+    b.type='button'; b.className='day'+(i===activeIdx?' active':'');
+    b.innerHTML=`<div class="dw">${T().days_s[d.getDay()]}</div><div class="dn">${d.getDate()}</div>`;
+    b.onclick=()=>onPick(i);
+    el.appendChild(b);
+  }
+}
+function renderS2(){
+  const hybrid = mode==='hybrid';
+  $('hybridTabs').style.display = hybrid?'flex':'none';
+  const clsMode = (mode==='class') || (hybrid && S.hybridTab==='class');
+  $('s2service').style.display = clsMode?'none':'block';
+  $('s2class').style.display = clsMode?'block':'none';
+  $('s2sub').textContent = (clsMode?T().s2_sub_cls:T().s2_sub_svc)+' '+fmtFull(dayDate(S.day));
+  document.querySelectorAll('#hybridTabs .big-tab').forEach(b=>b.classList.toggle('active', b.dataset.htab===S.hybridTab));
+  renderDays($('dayStrip'), S.day, i=>{S.day=i; S.time=null; renderS2(); renderBar();});
+  if(clsMode){
+    const el=$('classList'); el.innerHTML='';
+    vendor.classes.forEach((c,ci)=>{
+      const t=CLASS_TIMES[(ci+S.day)%CLASS_TIMES.length];
+      const coach=coachById(c.coach);
+      const low=c.spots<=3;
+      const row=document.createElement('div'); row.className='cls'; row.tabIndex=0; row.setAttribute('role','button');
+      row.innerHTML=`<span class="av">${coach.n[0]}</span>
+        <div class="info"><h3>${c[lang]}</h3><p class="m">${t} · ${c.dur} ${T().min} · ${coach.n}</p></div>
+        <span class="spots${low?' low':''}">${low?T().spot_low+' ':''}${c.spots} ${T().spots_left}</span>`;
+      const go=()=>{S.cls={id:c.id, time:t}; show('s4');};
+      row.onclick=go;
+      row.onkeydown=e=>{if(e.key==='Enter'){go();}};
+      el.appendChild(row);
+    });
+    $('coachFirst').style.display = vendor.coaches? 'block':'none';
+  } else {
+    const el=$('slotGrid'); el.innerHTML='';
+    TIMES.forEach((t,ti)=>{
+      const b=document.createElement('button');
+      b.type='button'; b.className='slot'+(S.time===t?' active':'');
+      b.textContent=t;
+      b.disabled = slotOff(S.day,ti);
+      b.onclick=()=>{S.time=t; renderS2(); renderBar();};
+      el.appendChild(b);
+    });
+    const sp=$('staffPills'); sp.innerHTML='';
+    (vendor.staff||[]).forEach(st=>{
+      const b=document.createElement('button');
+      b.type='button'; b.className='tab'+(S.staff===st.id?' active':'');
+      b.textContent= st.id==='any'? T().any : st.n;
+      b.onclick=()=>{S.staff=st.id; renderS2();};
+      sp.appendChild(b);
+    });
+    $('staffPref').style.display = vendor.staff? 'block':'none';
+  }
+}
+function renderS4(){
+  const c=clsById(S.cls.id); const coach=coachById(c.coach);
+  $('clsName').textContent=c[lang];
+  $('clsWhen').textContent=fmtFull(dayDate(S.day))+' · '+S.cls.time;
+  $('clsAv').textContent=coach.n[0];
+  $('clsCoach').textContent=coach.n;
+  $('clsCoachExp').textContent=lang==='en'?coach.exp_en:coach.exp_zh;
+  $('clsDur').textContent=c.dur+' '+T().min;
+  $('clsLoc').textContent=(lang==='en'?vendor.addr_en:vendor.addr_zh)+', '+dLabel(vendor.district);
+  $('clsSpots').textContent=c.spots+' '+T().spots_left;
+  $('clsDesc').textContent=lang==='en'?c.desc_en:c.desc_zh;
+}
+function renderS5(){
+  const el=$('coachList'); el.innerHTML='';
+  vendor.coaches.forEach(c=>{
+    const row=document.createElement('div'); row.className='coach-card'; row.tabIndex=0; row.setAttribute('role','button');
+    row.innerHTML=`<span class="av">${c.n[0]}</span>
+      <div style="flex:1"><h3>${c.n}</h3><p class="m">${c[lang]} · ${lang==='en'?c.exp_en:c.exp_zh}</p></div>
+      <span class="r"><span class="star">★</span> ${c.r}</span>`;
+    const go=()=>{S.coach=c.id; S.coachTime=null; renderS5cal();};
+    row.onclick=go; row.onkeydown=e=>{if(e.key==='Enter')go();};
+    el.appendChild(row);
+  });
+  renderS5cal();
+}
+function renderS5cal(){
+  const box=$('coachCal');
+  if(!S.coach){ box.style.display='none'; renderBar(); return; }
+  box.style.display='block';
+  const c=coachById(S.coach);
+  $('coachCalName').textContent = c.n + (lang==='en'?T().s5_cal:T().s5_cal);
+  renderDays($('coachDays'), S.coachDay, i=>{S.coachDay=i; S.coachTime=null; renderS5cal();});
+  const el=$('coachSlots'); el.innerHTML='';
+  const own = vendor.classes.filter(k=>k.coach===S.coach);
+  own.forEach((k,ki)=>{
+    const t=CLASS_TIMES[(ki+S.coachDay+1)%CLASS_TIMES.length];
+    const b=document.createElement('button');
+    b.type='button'; b.className='slot'+(S.coachTime===k.id+t?' active':'');
+    b.style.gridColumn='span 2'; b.style.textAlign='left'; b.style.padding='10px 12px';
+    b.innerHTML=`<b>${t}</b> · ${k[lang]}`;
+    b.onclick=()=>{S.coachTime=k.id+t; S.cls={id:k.id, time:t}; S.day=S.coachDay; renderS5cal(); renderBar();};
+    el.appendChild(b);
+  });
+  renderBar();
+}
+function renderS6(){
+  $('g2fields').style.display = (S.guests>1 && vendor.type!=='class') ? 'block':'none';
+}
+function priceLines(){
+  const lines=[];
+  if(S.cls){
+    const c=clsById(S.cls.id);
+    lines.push({t:`${c[lang]} · ${coachById(c.coach).n}`, p:c.price});
+  } else {
+    for(let g=0; g<S.guests; g++){
+      S.picks[g].forEach(id=>{
+        const s=svcById(id);
+        lines.push({t:(S.guests>1?`${T().guest} ${g+1} · `:'')+s[lang], p:s.price});
+      });
+    }
+  }
+  return lines;
+}
+function totals(){
+  const sub=priceLines().reduce((a,l)=>a+l.p,0);
+  const disc=S.promo? Math.min(50,sub):0;
+  return {sub, disc, tot: sub-disc};
+}
+function renderS7(){
+  $('confLines').innerHTML = priceLines().map(l=>
+    `<div class="line" style="display:flex;justify-content:space-between;padding:5px 0;font-size:14px"><span>${l.t}</span><b>${money(l.p)}</b></div>`).join('')
+    + `<p style="font-size:12.5px;color:var(--muted);margin-top:6px">${fmtFull(dayDate(S.day))} · ${S.cls?S.cls.time:(S.time||'')} · ${vendor.name}</p>`;
+  const t=totals();
+  $('confTotals').innerHTML =
+    `<div class="line"><span>${T().subtotal}</span><span>${money(t.sub)}</span></div>`
+    +(t.disc?`<div class="line" style="color:var(--ok)"><span>${T().discount}</span><span>−${money(t.disc)}</span></div>`:'')
+    +`<div class="line tot"><span>${T().total}</span><span>${money(t.tot)}</span></div>`;
+  $('promoOk').classList.toggle('show', S.promo);
+  $('promoOkTxt').textContent=T().promo_applied;
+}
+function renderS8(){
+  const t=totals();
+  const who=[$('fFirst').value,$('fLast').value].join(' ').trim()||'—';
+  $('recap').innerHTML =
+    `<div class="kv"><span class="ic">👤</span><span><b>${who}</b>${S.guests>1?' +1':''}</span></div>
+     <div class="kv"><span class="ic">📅</span><span><b>${fmtFull(dayDate(S.day))}</b> · ${S.cls?S.cls.time:S.time}</span></div>
+     <div class="kv"><span class="ic">📍</span><span>${vendor.name}<br>${lang==='en'?vendor.addr_en:vendor.addr_zh}, ${dLabel(vendor.district)}</span></div>`
+    + priceLines().map(l=>`<div class="kv"><span class="ic">·</span><span style="display:flex;justify-content:space-between;flex:1"><span>${l.t}</span><b>${money(l.p)}</b></span></div>`).join('')
+    + `<div class="kv" style="border-top:1px solid var(--hairline);margin-top:6px;padding-top:10px"><span class="ic"></span><span style="display:flex;justify-content:space-between;flex:1;font-weight:800"><span>${T().total}</span><span>${money(t.tot)}</span></span></div>`;
+}
+function renderS9(){
+  const el=$('bkgList'); el.innerHTML='';
+  BOOKINGS.forEach(b=>{
+    const when=new Date(Date.now()+b.offsetH*3600e3);
+    const canCancel = b.status==='up' && b.offsetH>48;
+    const stCls = b.status==='up'?'up':b.status==='done'?'done':'off';
+    const stTxt = b.status==='up'?T().st_up:b.status==='done'?T().st_done:T().st_off;
+    const row=document.createElement('div'); row.className='bkg';
+    row.innerHTML=`<div class="top"><h3>${b.vendor}</h3><span class="st ${stCls}">${stTxt}</span></div>
+      <p class="m">${fmtFull(when)} · ${lang==='en'?b.what_en:b.what_zh}</p>
+      <div class="row-actions">${
+        b.status!=='up' ? '' :
+        canCancel
+          ? `<button type="button" class="cancel-btn">${T().cancel}</button>`
+          : `<button type="button" class="cancel-btn" disabled>${T().cancel}</button><span class="rule-note">${T().rule_in48}</span>`
+      }</div>`;
+    const cb=row.querySelector('.cancel-btn:not([disabled])');
+    if(cb) cb.onclick=()=>{
+      $('cxText').textContent=`${b.vendor} ${T().cx_txt}`;
+      $('cancelWrap').classList.add('show');
+      $('cxYes').onclick=()=>{ b.status='off'; $('cancelWrap').classList.remove('show'); renderS9(); };
+    };
+    el.appendChild(row);
+  });
+}
+function render(id){
+  renderHead();
+  if(id==='s1'){renderGuests();renderSvcTabs();renderSvcList();}
+  if(id==='s2') renderS2();
+  if(id==='s4') renderS4();
+  if(id==='s5') renderS5();
+  if(id==='s6') renderS6();
+  if(id==='s7') renderS7();
+  if(id==='s8') renderS8();
+  if(id==='s9') renderS9();
+}
+
+/* ================= bar / validation ================= */
+function canNext(){
+  switch(S.screen){
+    case 's1': { for(let g=0; g<S.guests; g++) if(!S.picks[g].length) return false; return true; }
+    case 's2': {
+      const clsMode = (mode==='class')||(mode==='hybrid'&&S.hybridTab==='class');
+      return clsMode? false : !!S.time;   /* class mode advances by tapping a class */
+    }
+    case 's4': return true;
+    case 's5': return !!S.coachTime;
+    case 's6': return true;               /* validated on click */
+    case 's7': return true;
+    default: return true;
+  }
+}
+function nextLabel(){
+  if(S.screen==='s4') return T().book_class;
+  if(S.screen==='s7') return T().pay + ' · ' + money(totals().tot);
+  if(S.screen==='s8'||S.screen==='s9') return T().done;
+  return T().next;
+}
+function renderBar(){
+  const t=totals();
+  $('barTotal').innerHTML = (S.screen==='s8'||S.screen==='s9') ? '' : `<span>${T().total}</span><b>${money(t.tot)}</b>`;
+  $('nextBtn').textContent = nextLabel();
+  $('nextBtn').disabled = !canNext();
+  $('backBtn').style.visibility = (S.screen==='s8') ? 'hidden':'visible';
+}
+function validateS6(){
+  let ok=true;
+  [['fFirst'],['fLast'],['fEmail'],['fPhone']].forEach(([id])=>{
+    const el=$(id); const bad=!el.value.trim();
+    el.classList.toggle('bad',bad); if(bad) ok=false;
+  });
+  if(!$('cPrivacy').checked || !$('cWaiver').checked) ok=false;
+  $('frmWarn').classList.toggle('show',!ok);
+  return ok;
+}
+$('nextBtn').onclick=()=>{
+  const id=S.screen;
+  if(id==='s1'){ if(!canNext()){$('svcWarn').classList.add('show');return;} show(S.time?'s6':'s2'); return; }
+  if(id==='s2'){
+    const anyPicks = S.picks.slice(0,S.guests).every(p=>p.length);
+    show(anyPicks ? 's6' : 's1');   /* hybrid time-first path detours via service picker */
+    return;
+  }
+  if(id==='s4'){ show('s6'); return; }
+  if(id==='s5'){ show('s6'); return; }
+  if(id==='s6'){ if(!validateS6()) return; show('s7'); return; }
+  if(id==='s7'){
+    BOOKINGS.unshift({vendor:vendor.name,
+      what_en:priceLines().map(l=>l.t).join(', '), what_zh:priceLines().map(l=>l.t).join('、'),
+      offsetH: (S.day*24)+72, status:'up'});
+    show('s8'); return;
+  }
+  if(id==='s8'||id==='s9'){ location.href='vendor.html'; }
+};
+$('backBtn').onclick=goBack;
+
+/* ================= misc wiring ================= */
+$('gMinus').onclick=()=>{S.guests=1;S.activeGuest=0;renderGuests();renderSvcList();renderBar();};
+$('gPlus').onclick=()=>{S.guests=2;renderGuests();renderSvcList();renderBar();};
+document.querySelectorAll('#hybridTabs .big-tab').forEach(b=>{
+  b.onclick=()=>{ S.hybridTab=b.dataset.htab; S.time=null; renderS2(); renderBar(); };
+});
+$('coachFirst').querySelector('button').onclick=()=>show('s5');
+$('promoBtn').onclick=()=>{
+  const v=$('promoIn').value.trim().toUpperCase();
+  if(v==='NEWCLIENT'){ S.promo=true; $('promoErr').classList.remove('show'); renderS7(); renderBar(); }
+  else { $('promoErr').classList.add('show'); }
+};
+$('promoRm').onclick=()=>{ S.promo=false; $('promoIn').value=''; renderS7(); renderBar(); };
+$('loginLink').onclick=e=>{e.preventDefault(); show('s9');};
+$('toBookings').onclick=e=>{e.preventDefault(); show('s9');};
+$('cxNo').onclick=()=>$('cancelWrap').classList.remove('show');
+$('cancelWrap').addEventListener('click',e=>{if(e.target===$('cancelWrap'))$('cancelWrap').classList.remove('show');});
+addEventListener('keydown',e=>{if(e.key==='Escape')$('cancelWrap').classList.remove('show');});
+
+$('shareBtn').onclick=async()=>{
+  const t=totals();
+  const txt=`${vendor.name} — ${fmtFull(dayDate(S.day))} ${S.cls?S.cls.time:S.time} — ${money(t.tot)}`;
+  if(navigator.share){ try{ await navigator.share({title:'Bliss booking', text:txt}); }catch(e){} }
+  else { await navigator.clipboard.writeText(txt); alert(T().copied); }
+};
+$('calBtn').onclick=()=>{
+  const d=dayDate(S.day);
+  const [h,m]=(S.cls?S.cls.time:S.time).split(':');
+  d.setHours(+h,+m,0,0);
+  const end=new Date(d.getTime()+60*60000);
+  const f=x=>x.toISOString().replace(/[-:]|\.\d{3}/g,'');
+  const ics=`BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${f(d)}\nDTEND:${f(end)}\nSUMMARY:${vendor.name}\nLOCATION:${vendor.addr_en}\nEND:VEVENT\nEND:VCALENDAR`;
+  const a=document.createElement('a');
+  a.href='data:text/calendar;charset=utf8,'+encodeURIComponent(ics);
+  a.download='bliss-booking.ics'; a.click();
+};
+
+/* ================= i18n apply ================= */
+function applyLang(){
+  const dict=T();
+  document.documentElement.lang = lang==='en'?'en':'zh-Hant';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(dict[k]) el.textContent=dict[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-ph');
+    if(dict[k]) el.setAttribute('placeholder',dict[k]);
+  });
+  $('langToggle').textContent = lang==='en'?'繁':'EN';
+  render(S.screen); renderBar(); renderProg(); renderHead();
+}
+$('langToggle').onclick=()=>{lang=lang==='en'?'zh':'en';applyLang();};
+
+/* ================= boot ================= */
+applyLang();
+show(seq()[0], false);
+</script>
+</body>
+</html>

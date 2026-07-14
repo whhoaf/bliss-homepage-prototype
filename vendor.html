@@ -394,16 +394,6 @@
   <button class="btn btn-primary" id="barBook" style="background:var(--action)" data-i18n="book_now">Book now</button>
 </div>
 
-<!-- booking stub modal -->
-<div class="modal-wrap" id="modalWrap" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-  <div class="modal">
-    <h3 id="modalTitle" data-i18n="md_h">Booking flow is the next build step</h3>
-    <p data-i18n="md_p">This prototype stops here for now. The full flow (date, time, guests, payment) ships in build step 2, based on the Roku AI booking screens.</p>
-    <p class="svc-name" id="modalSvc"></p>
-    <button class="btn btn-primary" id="modalClose" data-i18n="md_close">Got it</button>
-  </div>
-</div>
-
 <footer>
   <div class="wrap legal">
     <span data-i18n="legal_line">© 2026 Bliss Wellness · Hong Kong</span>
@@ -523,20 +513,12 @@ tabs.forEach(tab=>tab.addEventListener('click', ()=>{
   });
 }));
 
-/* booking stub modal */
-const modalWrap = document.getElementById('modalWrap');
-const modalSvc = document.getElementById('modalSvc');
-function openModal(svcKey){
-  modalSvc.textContent = svcKey ? STR[lang][svcKey] : '';
-  modalWrap.classList.add('show');
-  document.getElementById('modalClose').focus();
-}
-document.querySelectorAll('.svc .book').forEach(b=>b.addEventListener('click', ()=>openModal(b.dataset.svc)));
-document.getElementById('railBook').addEventListener('click', ()=>openModal(null));
-document.getElementById('barBook').addEventListener('click', ()=>openModal(null));
-document.getElementById('modalClose').addEventListener('click', ()=>modalWrap.classList.remove('show'));
-modalWrap.addEventListener('click', e=>{ if(e.target === modalWrap) modalWrap.classList.remove('show'); });
-addEventListener('keydown', e=>{ if(e.key === 'Escape') modalWrap.classList.remove('show'); });
+/* booking flow entry */
+document.querySelectorAll('.svc .book').forEach(b=>b.addEventListener('click', ()=>{
+  location.href = 'booking.html?mode=service&svc=' + b.dataset.svc;
+}));
+document.getElementById('railBook').addEventListener('click', ()=>{ location.href = 'booking.html?mode=service'; });
+document.getElementById('barBook').addEventListener('click', ()=>{ location.href = 'booking.html?mode=service'; });
 
 /* heart */
 document.querySelectorAll('.heart').forEach(h=>h.addEventListener('click', ()=>{
