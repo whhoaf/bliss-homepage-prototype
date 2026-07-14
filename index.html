@@ -87,7 +87,7 @@
   .biz-shot > .ph:first-child{border-radius:14px 14px 14px 64px}
 
   /* ---------- rails ---------- */
-  .rail-sec{padding:26px 0 6px}
+  .rail-sec{padding-top:26px;padding-bottom:6px}
   .rail-head{display:flex;align-items:center;justify-content:space-between;gap:16px}
   .rail-head h2{font-weight:800;font-size:22px}
   .rail-nav{display:flex;gap:8px}
@@ -116,7 +116,7 @@
   .no-results.show{display:block}
 
   /* ---------- verticals strip ---------- */
-  .vert-sec{padding:34px 0}
+  .vert-sec{padding-top:34px;padding-bottom:34px}
   .vert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
   .vert{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--hairline);background:var(--card);cursor:pointer;transition:transform .15s ease-out,box-shadow .15s ease-out}
   .vert:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(55,50,75,.10)}
@@ -143,7 +143,7 @@
   .district-btn.active span{color:rgba(254,254,255,.7)}
 
   /* ---------- app / web booking ---------- */
-  .app-sec{padding:56px 0}
+  .app-sec{padding-top:56px;padding-bottom:56px}
   .app-grid{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:center}
   .app-copy h2{font-weight:800;font-size:clamp(24px,3vw,34px);letter-spacing:-.02em;text-wrap:balance}
   .app-copy p{color:var(--muted);margin-top:12px;max-width:46ch}
@@ -156,7 +156,7 @@
   .phone:nth-child(2){margin-top:36px}
 
   /* ---------- reviews ---------- */
-  .rev-sec{padding:14px 0 40px}
+  .rev-sec{padding-top:14px;padding-bottom:40px}
   .rev-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
   .review{background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:18px}
   .review .star{color:var(--apricot);font-size:13px;letter-spacing:2px}
@@ -168,7 +168,7 @@
   .review .who b{display:block;color:var(--ink);font-size:12.5px}
 
   /* ---------- stats ---------- */
-  .stats-sec{text-align:center;padding:48px 0 56px}
+  .stats-sec{text-align:center;padding-top:48px;padding-bottom:56px}
   .stats-sec .kick{font-weight:800;font-size:clamp(20px,2.6vw,28px);letter-spacing:-.02em}
   .stats-sec .lede{color:var(--muted);font-size:14.5px;margin-top:6px}
   .bignum{font-family:var(--serif);font-weight:600;font-size:clamp(56px,9vw,104px);line-height:1.05;color:var(--peri);margin-top:22px;font-variant-numeric:tabular-nums}
@@ -192,7 +192,7 @@
   .biz-shot .mini{position:absolute;left:-26px;bottom:-24px;width:200px;height:140px;border-radius:12px;box-shadow:0 10px 26px rgba(55,50,75,.16)}
 
   /* ---------- directory ---------- */
-  .dir-sec{padding:50px 0 14px}
+  .dir-sec{padding-top:50px;padding-bottom:14px}
   .dir-sec h2{font-weight:800;font-size:22px}
   .dir-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;margin-top:20px}
   .dir-grid h4{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
@@ -211,6 +211,9 @@
   .legal{margin-top:32px;padding-top:18px;border-top:1px solid var(--hairline);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
 
   @media (max-width:960px){
+    .petal.p1{width:250px;height:250px;left:-100px;top:-100px}
+    .petal.p3{width:210px;height:210px;right:-85px;top:-85px}
+    .petal.p2,.petal.p4,.petal.p5{display:none}
     .rev-grid{grid-template-columns:1fr 1fr}
     .map-grid,.app-grid,.biz-grid{grid-template-columns:1fr}
     .dir-grid,.foot-grid{grid-template-columns:1fr 1fr}
