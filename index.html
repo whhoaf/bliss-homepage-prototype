@@ -25,8 +25,12 @@
   a{color:var(--action)}
   :focus-visible{outline:3px solid var(--action);outline-offset:2px;border-radius:4px}
   h1,h2,h3{letter-spacing:-.015em}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#FEFEFF;padding:10px 18px;border-radius:0 0 10px 0;z-index:100;font-weight:700;text-decoration:none}
+  .skip:focus{left:0}
 
   /* ---------- nav ---------- */
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(254,254,255,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s ease-out}
+  .site-head.scrolled{border-bottom-color:var(--hairline)}
   .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:14px}
   .wordmark{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--peri);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
   .mark{display:inline-grid;grid-template-columns:9px 9px;gap:2px}
@@ -51,7 +55,13 @@
   .blob.b1{width:520px;height:420px;left:-120px;top:-140px;background:rgba(141,165,213,.42)}
   .blob.b2{width:560px;height:440px;right:-140px;top:-120px;background:rgba(70,64,222,.16)}
   .blob.b3{width:420px;height:320px;left:36%;top:-180px;background:rgba(232,147,58,.14)}
-  .hero .inner{position:relative}
+  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(180deg,rgba(254,254,255,0),var(--bg));pointer-events:none}
+  .hero .inner{position:relative;z-index:1}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .hero h1{animation:rise .55s ease-out both}
+  .hero .sub{animation:rise .55s .07s ease-out both}
+  .hero .search{animation:rise .55s .14s ease-out both}
+  .hero .live,.hero .chips{animation:rise .55s .22s ease-out both}
   .hero h1{font-weight:800;font-size:clamp(32px,4.8vw,52px);line-height:1.06;letter-spacing:-.03em;text-wrap:balance}
   .hero .sub{font-size:16px;color:var(--muted);margin:14px auto 0;max-width:560px}
   .search{margin:28px auto 0;background:var(--card);border:1px solid var(--hairline);border-radius:999px;box-shadow:0 4px 24px rgba(20,16,64,.08);display:flex;align-items:stretch;max-width:760px;overflow:hidden;text-align:left}
@@ -69,10 +79,14 @@
   .chip.active{background:var(--ink);border-color:var(--ink);color:#FEFEFF}
 
   /* ---------- image placeholders ---------- */
-  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1.5px dashed var(--peri);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:10px;text-align:center;color:var(--ink-soft)}
-  .ph .cam{font-size:16px;opacity:.75}
-  .ph small{font-size:10.5px;line-height:1.45;color:var(--muted);max-width:26ch}
+  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,165,213,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
+  .ph .cam{font-size:13px;opacity:.55}
+  .ph small{font-size:10px;line-height:1.4;color:var(--muted);max-width:26ch}
   .ph small b{color:var(--ink-soft)}
+  /* petal corner: brand signature from the four-petal mark */
+  .vthumb .ph{border-radius:0 0 44px 0}
+  .vert .ph{border-radius:0 0 0 44px}
+  .biz-shot > .ph:first-child{border-radius:14px 14px 14px 64px}
 
   /* ---------- rails ---------- */
   .rail-sec{padding:26px 0 6px}
@@ -218,15 +232,19 @@
     .phones{transform:scale(.85)}
     .stat-row{gap:30px}
   }
+  @media (max-width:640px){
+    .site-head{position:static;background:var(--bg)}
+  }
   @media (prefers-reduced-motion:reduce){
-    *{transition:none!important}
+    *{transition:none!important;animation:none!important}
     html{scroll-behavior:auto}
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="site-head" id="siteHead"><div class="wrap">
   <nav class="nav" aria-label="Main">
     <a class="wordmark" href="#"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>bliss</a>
     <div class="nav-links">
@@ -238,7 +256,7 @@
       <a class="btn btn-primary" href="#business" data-i18n="nav_list">List your business</a>
     </div>
   </nav>
-</div>
+</div></div>
 
 <header class="hero">
   <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
@@ -277,7 +295,7 @@
   </div>
 </header>
 
-<main>
+<main id="main">
   <!-- rails -->
   <section class="rail-sec wrap" id="recommended">
     <div class="rail-head">
@@ -467,12 +485,14 @@
         </div>
       </article>
     </div>
+  </section>
 
+  <div class="wrap">
     <div class="no-results" id="noResults">
       <p data-i18n="nr">No matches yet. Try another service or district, or clear the filters.</p>
       <button class="btn btn-ghost" type="button" id="clearFilters" style="margin-top:12px" data-i18n="nr_btn">Clear filters</button>
     </div>
-  </section>
+  </div>
 
   <!-- verticals -->
   <section class="vert-sec wrap">
@@ -705,6 +725,7 @@
 /* ---------- i18n ---------- */
 const STR = {
   en: {
+    skip:"Skip to content",
     nav_wellness:"Wellness", nav_sports:"Sports", nav_map:"Map", nav_login:"Log in", nav_list:"List your business",
     hero_h1:"Book local self-care and sports",
     hero_sub:"Discover top-rated massage, nails, spa, pickleball, golf sim and yoga across Hong Kong.",
@@ -750,6 +771,7 @@ const STR = {
     f_proto:"Prototype for internal review · listings shown are sample data"
   },
   zh: {
+    skip:"跳至內容",
     nav_wellness:"養生美容", nav_sports:"運動", nav_map:"地圖", nav_login:"登入", nav_list:"商戶刊登",
     hero_h1:"預約你附近的養生與運動",
     hero_sub:"搜尋全港高評分按摩、美甲、水療、匹克球、高球模擬及瑜伽。",
@@ -857,6 +879,11 @@ function applyFilters(){
     card.classList.toggle('hide', !ok);
     if(ok) shown++;
   });
+  /* hide rails that filtered down to nothing */
+  document.querySelectorAll('.rail-sec').forEach(sec=>{
+    const any = [...sec.querySelectorAll('.vcard')].some(c=>!c.classList.contains('hide'));
+    sec.style.display = any ? '' : 'none';
+  });
   document.getElementById('noResults').classList.toggle('show', shown === 0);
 }
 chips.forEach(chip=>chip.addEventListener('click', ()=>{
@@ -894,19 +921,29 @@ document.getElementById('clearFilters').addEventListener('click', ()=>{
   applyFilters();
 });
 document.querySelectorAll('[data-setcat]').forEach(tile=>{
-  tile.addEventListener('click', ()=>{
+  const go = ()=>{
     const cat = tile.dataset.setcat;
     chips.forEach(c=>c.classList.toggle('active', c.dataset.cat===cat));
     activeCat = cat;
     applyFilters();
     document.getElementById('recommended').scrollIntoView({behavior: reduced ? 'auto' : 'smooth'});
-  });
+  };
+  tile.addEventListener('click', go);
+  tile.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); }});
 });
 /* hearts (visual only in prototype) */
-document.querySelectorAll('.heart').forEach(h=>h.addEventListener('click', e=>{
-  e.stopPropagation();
-  h.textContent = h.textContent === '♡' ? '♥' : '♡';
-}));
+document.querySelectorAll('.heart').forEach(h=>{
+  h.setAttribute('aria-pressed','false');
+  h.addEventListener('click', e=>{
+    e.stopPropagation();
+    const on = h.textContent !== '♡';
+    h.textContent = on ? '♡' : '♥';
+    h.setAttribute('aria-pressed', String(!on));
+  });
+});
+/* sticky header hairline once page scrolls */
+const head = document.getElementById('siteHead');
+addEventListener('scroll', ()=>head.classList.toggle('scrolled', scrollY > 8), {passive:true});
 </script>
 </body>
 </html>
