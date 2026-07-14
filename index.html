@@ -987,6 +987,13 @@ document.querySelectorAll('.heart').forEach(h=>{
     h.setAttribute('aria-pressed', String(!on));
   });
 });
+/* cards open the vendor page template (Serenity content for now) */
+cards.forEach(card=>{
+  card.setAttribute('tabindex','0');
+  card.setAttribute('role','link');
+  card.addEventListener('click', ()=>{ location.href = 'vendor.html'; });
+  card.addEventListener('keydown', e=>{ if(e.key==='Enter'){ location.href = 'vendor.html'; }});
+});
 /* sticky header hairline once page scrolls */
 const head = document.getElementById('siteHead');
 addEventListener('scroll', ()=>head.classList.toggle('scrolled', scrollY > 8), {passive:true});

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Serenity Foot &amp; Body 舒心養生 — Bliss</title>
+<meta name="description" content="Book foot massage, body treatments and TCM therapy at Serenity Foot & Body, Sheung Wan. Bliss marketplace prototype.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --peri:#8DA5D5; --peri-10:rgba(141,165,213,.10); --peri-18:rgba(141,165,213,.20);
+    --ink:#141040; --ink-soft:#1B1452; --action:#4640DE; --action-dark:#362FC4;
+    --bg:#FEFEFF; --panel:#F5F6FD; --card:#FFFFFE; --muted:#5D6C7B;
+    --apricot:#E8933A; --apricot-tint:#FEF7F1;
+    --ok:#2E7D4F;
+    --hairline:#E7E9F2;
+    --serif:"Fraunces","Noto Serif TC",Georgia,serif;
+    --sans:"Archivo","Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{background:var(--bg);scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;font-size:15.5px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  a{color:var(--action)}
+  :focus-visible{outline:3px solid var(--action);outline-offset:2px;border-radius:4px}
+  h1,h2,h3{letter-spacing:-.015em}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#FEFEFF;padding:10px 18px;border-radius:0 0 10px 0;z-index:100;font-weight:700;text-decoration:none}
+  .skip:focus{left:0}
+
+  /* nav (shared with homepage) */
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(254,254,255,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s ease-out}
+  .site-head.scrolled{border-bottom-color:var(--hairline)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:14px}
+  .wordmark{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--peri);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+  .mark{display:inline-grid;grid-template-columns:9px 9px;gap:2px}
+  .mark i{width:9px;height:9px;background:var(--peri)}
+  .mark i:nth-child(1){border-radius:50% 50% 0 50%}
+  .mark i:nth-child(2){border-radius:50% 50% 50% 0}
+  .mark i:nth-child(3){border-radius:50% 0 50% 50%}
+  .mark i:nth-child(4){border-radius:0 50% 50% 50%}
+  .nav-links{display:flex;gap:18px;align-items:center;font-size:14px}
+  .nav-links a.plain{color:var(--ink);text-decoration:none;font-weight:600}
+  .btn{display:inline-block;border:0;cursor:pointer;border-radius:999px;padding:10px 20px;font:700 14px var(--sans);text-decoration:none;transition:background .15s ease-out;white-space:nowrap;text-align:center}
+  .btn-primary{background:var(--ink);color:#FEFEFF}
+  .btn-primary:hover{background:var(--action)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--hairline);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .lang-toggle{background:transparent;border:1px solid var(--hairline);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);color:var(--ink);cursor:pointer}
+  .lang-toggle:hover{border-color:var(--ink)}
+
+  /* placeholders */
+  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,165,213,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
+  .ph .cam{font-size:13px;opacity:.55}
+  .ph small{font-size:10px;line-height:1.4;color:var(--muted);max-width:30ch}
+  .ph small b{color:var(--ink-soft)}
+
+  /* breadcrumbs + title */
+  .crumbs{font-size:13px;color:var(--muted);padding:18px 0 6px;display:flex;gap:6px;flex-wrap:wrap}
+  .crumbs a{color:var(--muted);text-decoration:none}
+  .crumbs a:hover{color:var(--action)}
+  .v-head h1{font-family:var(--serif);font-weight:600;font-size:clamp(26px,3.6vw,40px);line-height:1.15}
+  .v-sub{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:8px;font-size:14px}
+  .v-sub .stars{color:var(--apricot);font-weight:700}
+  .v-sub .stars b{color:var(--ink)}
+  .v-sub .stars a{color:var(--action);font-weight:400}
+  .open-now{color:var(--ok);font-weight:600}
+  .v-sub .dot{color:var(--hairline)}
+  .v-actions{display:flex;gap:8px}
+  .icon-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--hairline);background:var(--card);cursor:pointer;font-size:14px;color:var(--ink)}
+  .icon-btn:hover{border-color:var(--ink)}
+  .v-head-row{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+
+  /* gallery */
+  .gallery{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:190px 190px;gap:10px;margin-top:18px}
+  .gallery .g-main{grid-row:1/3;position:relative;border-radius:14px;overflow:hidden}
+  .gallery .g-main .ph{position:absolute;inset:0;border-radius:14px 14px 64px 14px}
+  .gallery .g-a,.gallery .g-b{position:relative;border-radius:14px;overflow:hidden}
+  .gallery .g-a .ph,.gallery .g-b .ph{position:absolute;inset:0}
+  .see-all{position:absolute;right:10px;bottom:10px;background:rgba(254,254,255,.94);border:0;border-radius:999px;padding:6px 14px;font:600 12.5px var(--sans);cursor:pointer}
+
+  /* layout: content + rail */
+  .v-grid{display:grid;grid-template-columns:1fr 360px;gap:36px;margin-top:34px;align-items:start}
+  .v-main > section{padding:26px 0;border-top:1px solid var(--hairline)}
+  .v-main > section:first-child{border-top:0;padding-top:0}
+  .v-main h2{font-weight:800;font-size:21px;margin-bottom:14px}
+
+  /* services */
+  .svc-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+  .svc-tab{border:1px solid var(--hairline);cursor:pointer;border-radius:999px;padding:7px 15px;font:600 13px var(--sans);background:var(--card);color:var(--ink)}
+  .svc-tab:hover{border-color:var(--ink)}
+  .svc-tab.active{background:var(--ink);border-color:var(--ink);color:#FEFEFF}
+  .svc{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:15px 0;border-bottom:1px solid var(--hairline)}
+  .svc:last-child{border-bottom:0}
+  .svc.hide{display:none}
+  .svc h3{font-size:15.5px;font-weight:700}
+  .svc .s-meta{font-size:13px;color:var(--muted);margin-top:2px}
+  .svc .s-price{font-size:14.5px;font-weight:700;white-space:nowrap}
+  .svc .right{display:flex;align-items:center;gap:16px}
+  .svc .book{border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:8px 20px;font:700 13.5px var(--sans);cursor:pointer;transition:all .15s ease-out}
+  .svc .book:hover{background:var(--ink);color:#FEFEFF}
+
+  /* reviews */
+  .rev-summary{display:flex;align-items:baseline;gap:10px;margin-bottom:16px}
+  .rev-summary .big{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--ink)}
+  .rev-summary .stars{color:var(--apricot);letter-spacing:2px}
+  .rev-summary span{color:var(--muted);font-size:13.5px}
+  .rev-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .review{background:var(--card);border:1px solid var(--hairline);border-radius:14px;padding:16px}
+  .review .stars{color:var(--apricot);font-size:12.5px;letter-spacing:2px}
+  .review p{font-size:13.5px;margin-top:8px;color:var(--ink-soft)}
+  .review .who{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--muted)}
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--peri-18);color:var(--ink-soft);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .review .who b{color:var(--ink);display:block;font-size:12.5px}
+
+  /* about + map */
+  .about p{color:var(--ink-soft);font-size:14.5px;max-width:64ch}
+  .about p + p{margin-top:10px}
+  .map-ph{height:260px;border-radius:14px;overflow:hidden;margin-top:16px;position:relative}
+  .map-ph .ph{position:absolute;inset:0}
+  .addr-line{margin-top:10px;font-size:14px}
+  .addr-line a{font-weight:600;text-decoration:none}
+
+  /* hours + amenities */
+  .info-cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .hours{font-size:14px;width:100%}
+  .hours div{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--hairline)}
+  .hours div:last-child{border-bottom:0}
+  .hours .today{font-weight:700}
+  .hours .day::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ok);margin-right:8px}
+  .amen{list-style:none;padding:0;font-size:14px}
+  .amen li{padding:6px 0;display:flex;gap:9px;align-items:center}
+  .amen .ic{width:20px;text-align:center;opacity:.75}
+
+  /* rail */
+  .rail-card{position:sticky;top:82px;background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:22px;box-shadow:0 4px 24px rgba(20,16,64,.06)}
+  .rail-card .price-line{font-size:14px;color:var(--muted)}
+  .rail-card .price-line b{color:var(--ink);font-size:17px}
+  .rail-card .btn-book{width:100%;margin-top:14px;padding:14px;font-size:15px;border-radius:999px;background:var(--action);color:#FEFEFF;border:0;font-weight:700;cursor:pointer;transition:background .15s ease-out}
+  .rail-card .btn-book:hover{background:var(--action-dark)}
+  .rail-card .wa{width:100%;margin-top:9px;display:flex;align-items:center;justify-content:center;gap:8px;border:1.5px solid var(--hairline);border-radius:999px;padding:11px;font:700 14px var(--sans);color:var(--ink);background:transparent;cursor:pointer}
+  .rail-card .wa:hover{border-color:var(--ink)}
+  .rail-card .wa svg{width:17px;height:17px;fill:#25D366}
+  .rail-meta{margin-top:16px;padding-top:16px;border-top:1px solid var(--hairline);font-size:13.5px;display:flex;flex-direction:column;gap:10px}
+  .rail-meta .row{display:flex;gap:9px;align-items:flex-start}
+  .rail-meta .ic{width:18px;text-align:center;opacity:.7;flex:none}
+
+  /* nearby */
+  .nearby{padding:44px 0 10px}
+  .nearby h2{font-weight:800;font-size:21px;margin-bottom:16px}
+  .n-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .n-card{background:var(--card);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .15s ease-out,box-shadow .15s ease-out;display:block}
+  .n-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,16,64,.10)}
+  .n-thumb{position:relative;height:130px}
+  .n-thumb .ph{position:absolute;inset:0;border-radius:0 0 36px 0}
+  .n-card .nb{padding:12px 14px 14px}
+  .n-card h3{font-size:15px;font-weight:700}
+  .n-card .nr{font-size:12.5px;margin-top:3px}
+  .n-card .nr .star{color:var(--apricot);font-weight:700}
+  .n-card .nm{color:var(--muted);font-size:12.5px;margin-top:2px}
+
+  /* directory pills */
+  .cat-pills{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 0;padding-top:22px;border-top:1px solid var(--hairline)}
+  .cat-pills a{border:1px solid var(--hairline);border-radius:999px;padding:7px 15px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none}
+  .cat-pills a:hover{border-color:var(--ink)}
+
+  /* footer */
+  footer{padding:40px 0 30px;margin-top:26px}
+  .legal{padding-top:18px;border-top:1px solid var(--hairline);font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap}
+
+  /* mobile book bar */
+  .book-bar{display:none}
+
+  /* stub modal */
+  .modal-wrap{position:fixed;inset:0;background:rgba(20,16,64,.45);display:none;align-items:center;justify-content:center;z-index:90;padding:24px}
+  .modal-wrap.show{display:flex}
+  .modal{background:var(--card);border-radius:16px;padding:28px;max-width:400px;width:100%;text-align:center}
+  .modal h3{font-size:18px;font-weight:800}
+  .modal p{font-size:14px;color:var(--muted);margin-top:8px}
+  .modal .svc-name{margin-top:10px;font-size:14px;font-weight:700;color:var(--ink)}
+  .modal .btn{margin-top:18px}
+
+  @media (max-width:960px){
+    .v-grid{grid-template-columns:1fr}
+    .rail-card{position:static;display:none}
+    .gallery{grid-template-columns:1fr;grid-template-rows:220px 110px}
+    .gallery .g-main{grid-row:auto}
+    .gallery .g-b{display:none}
+    .rev-grid,.n-grid,.info-cols{grid-template-columns:1fr}
+    .book-bar{display:flex;position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--hairline);padding:12px 18px;align-items:center;justify-content:space-between;gap:14px;z-index:60}
+    .book-bar .bp{font-size:13px;color:var(--muted)}
+    .book-bar .bp b{color:var(--ink);font-size:15px}
+    body{padding-bottom:74px}
+  }
+  @media (max-width:640px){
+    .nav{padding:12px 0;flex-wrap:wrap}
+    .nav-links{gap:10px;font-size:13px;flex-wrap:wrap;width:100%}
+    .btn{padding:8px 14px;font-size:12.5px}
+    .site-head{position:static;background:var(--bg)}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="site-head" id="siteHead"><div class="wrap">
+  <nav class="nav" aria-label="Main">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>bliss</a>
+    <div class="nav-links">
+      <a class="plain" href="index.html#recommended" data-i18n="nav_wellness">Wellness</a>
+      <a class="plain" href="index.html#sports-rail" data-i18n="nav_sports">Sports</a>
+      <a class="plain" href="index.html#map" data-i18n="nav_map">Map</a>
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">繁</button>
+      <a class="btn btn-ghost" href="#" data-i18n="nav_login">Log in</a>
+      <a class="btn btn-primary" href="index.html#business" data-i18n="nav_list">List your business</a>
+    </div>
+  </nav>
+</div></div>
+
+<main id="main" class="wrap">
+
+  <!-- breadcrumbs -->
+  <nav class="crumbs" aria-label="Breadcrumb">
+    <a href="index.html" data-i18n="cr_home">Home</a> ·
+    <a href="index.html#recommended" data-i18n="c_massage">Massage</a> ·
+    <a href="index.html#map"><span data-dkey="sheung wan"></span></a> ·
+    <span aria-current="page">Serenity Foot &amp; Body 舒心養生</span>
+  </nav>
+
+  <!-- title -->
+  <div class="v-head">
+    <div class="v-head-row">
+      <div>
+        <h1>Serenity Foot &amp; Body 舒心養生</h1>
+        <p class="v-sub">
+          <span class="stars">★ <b>4.9</b> <a href="#reviews">(212)</a></span>
+          <span class="dot">·</span>
+          <span class="open-now" data-i18n="open_now">Open now · closes 22:00</span>
+          <span class="dot">·</span>
+          <span><span data-dkey="sheung wan"></span> · <a href="#location" data-i18n="directions">Get directions</a></span>
+        </p>
+      </div>
+      <div class="v-actions">
+        <button class="icon-btn" aria-label="Share">↗</button>
+        <button class="icon-btn heart" aria-label="Save" aria-pressed="false">♡</button>
+      </div>
+    </div>
+
+    <!-- gallery -->
+    <div class="gallery">
+      <div class="g-main">
+        <div class="ph"><span class="cam">📷</span><small><b>Photo (main):</b> treatment room wide shot, recliner chairs, warm wood + soft lamps. Landscape 3:2, ≥1200px</small></div>
+      </div>
+      <div class="g-a"><div class="ph"><span class="cam">📷</span><small><b>Photo:</b> foot soak close-up, herbs in copper basin</small></div></div>
+      <div class="g-b">
+        <div class="ph"><span class="cam">📷</span><small><b>Photo:</b> reception with tea counter</small></div>
+        <button class="see-all" data-i18n="see_all">See all images</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="v-grid">
+    <div class="v-main">
+
+      <!-- services -->
+      <section id="services">
+        <h2 data-i18n="s_h2">Services</h2>
+        <div class="svc-tabs" role="group" aria-label="Service categories">
+          <button class="svc-tab active" data-scat="all" data-i18n="t_all">All</button>
+          <button class="svc-tab" data-scat="foot" data-i18n="t_foot">Foot</button>
+          <button class="svc-tab" data-scat="body" data-i18n="t_body">Body</button>
+          <button class="svc-tab" data-scat="tcm" data-i18n="t_tcm">TCM</button>
+        </div>
+
+        <div class="svc" data-scat="foot">
+          <div><h3 data-i18n="sv1">Signature foot massage</h3><p class="s-meta" data-min="60"></p></div>
+          <div class="right"><span class="s-price">HK$268</span><button class="book" data-svc="sv1" data-i18n="book">Book</button></div>
+        </div>
+        <div class="svc" data-scat="foot">
+          <div><h3 data-i18n="sv2">Foot + shoulder combo</h3><p class="s-meta" data-min="90"></p></div>
+          <div class="right"><span class="s-price">HK$368</span><button class="book" data-svc="sv2" data-i18n="book">Book</button></div>
+        </div>
+        <div class="svc" data-scat="foot">
+          <div><h3 data-i18n="sv3">Herbal foot soak</h3><p class="s-meta" data-min="30"></p></div>
+          <div class="right"><span class="s-price">HK$168</span><button class="book" data-svc="sv3" data-i18n="book">Book</button></div>
+        </div>
+        <div class="svc" data-scat="body">
+          <div><h3 data-i18n="sv4">Full-body oil massage</h3><p class="s-meta" data-min="60"></p></div>
+          <div class="right"><span class="s-price">HK$438</span><button class="book" data-svc="sv4" data-i18n="book">Book</button></div>
+        </div>
+        <div class="svc" data-scat="body">
+          <div><h3 data-i18n="sv5">Hot stone therapy</h3><p class="s-meta" data-min="90"></p></div>
+          <div class="right"><span class="s-price">HK$588</span><button class="book" data-svc="sv5" data-i18n="book">Book</button></div>
+        </div>
+        <div class="svc" data-scat="tcm">
+          <div><h3 data-i18n="sv6">Gua sha + cupping</h3><p class="s-meta" data-min="45"></p></div>
+          <div class="right"><span class="s-price">HK$328</span><button class="book" data-svc="sv6" data-i18n="book">Book</button></div>
+        </div>
+      </section>
+
+      <!-- reviews -->
+      <section id="reviews">
+        <h2 data-i18n="r_h2">Reviews</h2>
+        <div class="rev-summary">
+          <span class="big">4.9</span>
+          <span class="stars">★★★★★</span>
+          <span data-i18n="r_count">212 reviews</span>
+        </div>
+        <div class="rev-grid">
+          <div class="review"><div class="stars">★★★★★</div><p data-i18n="rv1">"The 90-minute combo fixed a week of desk shoulders. Therapist checked pressure twice without me asking."</p><div class="who"><span class="avatar">WL</span><div><b>Winnie L.</b><span data-i18n="rv1_d">Two days ago</span></div></div></div>
+          <div class="review"><div class="stars">★★★★★</div><p data-i18n="rv2">"Booked at lunch, was in the chair by 7pm the same day. Tea at the end is a nice touch."</p><div class="who"><span class="avatar">DK</span><div><b>Daniel K.</b><span data-i18n="rv2_d">Last week</span></div></div></div>
+          <div class="review"><div class="stars">★★★★★</div><p data-i18n="rv3">"Gua sha here is the real thing, not spa theatre. Ask for Mei."</p><div class="who"><span class="avatar">CT</span><div><b>Carmen T.</b><span data-i18n="rv3_d">Last week</span></div></div></div>
+          <div class="review"><div class="stars">★★★★☆</div><p data-i18n="rv4">"Small waiting area gets busy at weekends. Book ahead and it's flawless."</p><div class="who"><span class="avatar">JN</span><div><b>Jason N.</b><span data-i18n="rv4_d">Three weeks ago</span></div></div></div>
+        </div>
+      </section>
+
+      <!-- about + location -->
+      <section id="location" class="about">
+        <h2 data-i18n="a_h2">About</h2>
+        <p data-i18n="a_p1">Serenity Foot &amp; Body has worked the same corner of Sheung Wan for eight years. The team blends Cantonese tui na technique with modern sports-recovery pressure work, and every treatment starts with a herbal foot soak.</p>
+        <p data-i18n="a_p2">Two minutes from Sheung Wan MRT exit A2, above the dried-seafood street. Look for the jade signboard.</p>
+        <div class="map-ph">
+          <div class="ph"><span class="cam">🗺️</span><small><b>Map embed:</b> Google Maps pin at 135 Lockhart-equivalent address, Sheung Wan. Production uses live map</small></div>
+        </div>
+        <p class="addr-line">📍 88 Bonham Strand, <span data-dkey="sheung wan"></span> · <a href="#" data-i18n="directions">Get directions</a></p>
+      </section>
+
+      <!-- hours + amenities -->
+      <section>
+        <div class="info-cols">
+          <div>
+            <h2 data-i18n="h_h2">Opening times</h2>
+            <div class="hours" id="hours"></div>
+          </div>
+          <div>
+            <h2 data-i18n="am_h2">Good to know</h2>
+            <ul class="amen">
+              <li><span class="ic">⚡</span><span data-i18n="am1">Instant confirmation</span></li>
+              <li><span class="ic">💳</span><span data-i18n="am2">Pay online or in store</span></li>
+              <li><span class="ic">♿</span><span data-i18n="am3">Wheelchair accessible</span></li>
+              <li><span class="ic">🚇</span><span data-i18n="am4">2 min from Sheung Wan MTR</span></li>
+              <li><span class="ic">🗣️</span><span data-i18n="am5">Cantonese and English spoken</span></li>
+              <li><span class="ic">🕐</span><span data-i18n="am6">Free cancellation up to 48 hours ahead</span></li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- booking rail (desktop) -->
+    <aside class="rail-card" aria-label="Booking">
+      <p class="price-line"><span data-i18n="from">From</span> <b>HK$168</b> · <span data-i18n="per_visit">per visit</span></p>
+      <button class="btn-book" id="railBook" data-i18n="book_now">Book now</button>
+      <button class="wa"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm5.5 14.1c-.2.7-1.3 1.3-1.9 1.4-.5.1-1.1.1-1.8-.1-.4-.1-.9-.3-1.6-.6-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.4l.9 2.1c.1.2.1.4 0 .6l-.4.6-.5.5c-.2.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1.1 2.2 1.4 2.5 1.5.3.1.5.1.7-.1l1-1.2c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.1.1.6-.1 1.3Z"/></svg><span data-i18n="wa">WhatsApp the shop</span></button>
+      <div class="rail-meta">
+        <div class="row"><span class="ic">🕐</span><span><span class="open-now" data-i18n="open_now">Open now · closes 22:00</span></span></div>
+        <div class="row"><span class="ic">📍</span><span>88 Bonham Strand, <span data-dkey="sheung wan"></span><br><a href="#location" data-i18n="directions">Get directions</a></span></div>
+        <div class="row"><span class="ic">↩️</span><span data-i18n="am6">Free cancellation up to 48 hours ahead</span></div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- nearby -->
+  <section class="nearby">
+    <h2 data-i18n="n_h2">Nearby on Bliss</h2>
+    <div class="n-grid">
+      <a class="n-card" href="vendor.html">
+        <div class="n-thumb"><div class="ph"><span class="cam">📷</span><small><b>Photo:</b> manicure close-up</small></div></div>
+        <div class="nb"><h3>Glow Nails 亮甲坊</h3><p class="nr"><span class="star">★</span> 4.7 (301)</p><p class="nm"><span data-dkey="causeway bay"></span> · <span data-i18n="nm1">Nails</span></p></div>
+      </a>
+      <a class="n-card" href="vendor.html">
+        <div class="n-thumb"><div class="ph"><span class="cam">📷</span><small><b>Photo:</b> spa treatment room</small></div></div>
+        <div class="nb"><h3>Jade Spa 玉泉水療</h3><p class="nr"><span class="star">★</span> 4.8 (243)</p><p class="nm"><span data-dkey="tsim sha tsui"></span> · <span data-i18n="nm2">Spa</span></p></div>
+      </a>
+      <a class="n-card" href="vendor.html">
+        <div class="n-thumb"><div class="ph"><span class="cam">📷</span><small><b>Photo:</b> yoga class in session</small></div></div>
+        <div class="nb"><h3>Moon Yoga Studio 月瑜伽</h3><p class="nr"><span class="star">★</span> 5.0 (154)</p><p class="nm"><span data-dkey="sai ying pun"></span> · <span data-i18n="nm3">Yoga</span></p></div>
+      </a>
+    </div>
+    <div class="cat-pills">
+      <a href="index.html#recommended" data-i18n="c_massage">Massage</a>
+      <a href="index.html#recommended" data-i18n="c_nails">Nails</a>
+      <a href="index.html#recommended" data-i18n="c_facial">Facials</a>
+      <a href="index.html#sports-rail" data-i18n="c_pickleball">Pickleball</a>
+      <a href="index.html#sports-rail" data-i18n="c_golf">Golf sim</a>
+      <a href="index.html#recommended" data-i18n="c_yoga">Yoga</a>
+    </div>
+  </section>
+</main>
+
+<!-- mobile book bar -->
+<div class="book-bar">
+  <p class="bp"><span data-i18n="from">From</span> <b>HK$168</b></p>
+  <button class="btn btn-primary" id="barBook" style="background:var(--action)" data-i18n="book_now">Book now</button>
+</div>
+
+<!-- booking stub modal -->
+<div class="modal-wrap" id="modalWrap" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal">
+    <h3 id="modalTitle" data-i18n="md_h">Booking flow is the next build step</h3>
+    <p data-i18n="md_p">This prototype stops here for now. The full flow (date, time, guests, payment) ships in build step 2, based on the Roku AI booking screens.</p>
+    <p class="svc-name" id="modalSvc"></p>
+    <button class="btn btn-primary" id="modalClose" data-i18n="md_close">Got it</button>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap legal">
+    <span data-i18n="legal_line">© 2026 Bliss Wellness · Hong Kong</span>
+    <span data-i18n="f_proto">Prototype for internal review · listings shown are sample data</span>
+  </div>
+</footer>
+
+<script>
+const DISTRICTS = {
+  "sheung wan":{en:"Sheung Wan", zh:"上環"},
+  "causeway bay":{en:"Causeway Bay", zh:"銅鑼灣"},
+  "tsim sha tsui":{en:"Tsim Sha Tsui", zh:"尖沙咀"},
+  "sai ying pun":{en:"Sai Ying Pun", zh:"西營盤"}
+};
+function districtLabel(key, useLang){ return DISTRICTS[key] ? DISTRICTS[key][useLang] : key; }
+
+const STR = {
+  en: {
+    skip:"Skip to content",
+    nav_wellness:"Wellness", nav_sports:"Sports", nav_map:"Map", nav_login:"Log in", nav_list:"List your business",
+    cr_home:"Home", c_massage:"Massage", c_nails:"Nails", c_facial:"Facials", c_pickleball:"Pickleball", c_golf:"Golf sim", c_yoga:"Yoga",
+    open_now:"Open now · closes 22:00", directions:"Get directions", see_all:"See all images",
+    s_h2:"Services", t_all:"All", t_foot:"Foot", t_body:"Body", t_tcm:"TCM", book:"Book",
+    sv1:"Signature foot massage", sv2:"Foot + shoulder combo", sv3:"Herbal foot soak",
+    sv4:"Full-body oil massage", sv5:"Hot stone therapy", sv6:"Gua sha + cupping",
+    r_h2:"Reviews", r_count:"212 reviews",
+    rv1:"“The 90-minute combo fixed a week of desk shoulders. Therapist checked pressure twice without me asking.”", rv1_d:"Two days ago",
+    rv2:"“Booked at lunch, was in the chair by 7pm the same day. Tea at the end is a nice touch.”", rv2_d:"Last week",
+    rv3:"“Gua sha here is the real thing, not spa theatre. Ask for Mei.”", rv3_d:"Last week",
+    rv4:"“Small waiting area gets busy at weekends. Book ahead and it's flawless.”", rv4_d:"Three weeks ago",
+    a_h2:"About",
+    a_p1:"Serenity Foot & Body has worked the same corner of Sheung Wan for eight years. The team blends Cantonese tui na technique with modern sports-recovery pressure work, and every treatment starts with a herbal foot soak.",
+    a_p2:"Two minutes from Sheung Wan MTR exit A2, above the dried-seafood street. Look for the jade signboard.",
+    h_h2:"Opening times", am_h2:"Good to know",
+    am1:"Instant confirmation", am2:"Pay online or in store", am3:"Wheelchair accessible",
+    am4:"2 min from Sheung Wan MTR", am5:"Cantonese and English spoken", am6:"Free cancellation up to 48 hours ahead",
+    from:"From", per_visit:"per visit", min_unit:"min", book_now:"Book now", wa:"WhatsApp the shop",
+    n_h2:"Nearby on Bliss", nm1:"Nails", nm2:"Spa", nm3:"Yoga",
+    md_h:"Booking flow is the next build step",
+    md_p:"This prototype stops here for now. The full flow (date, time, guests, payment) ships in build step 2, based on the Roku AI booking screens.",
+    md_close:"Got it",
+    legal_line:"© 2026 Bliss Wellness · Hong Kong",
+    f_proto:"Prototype for internal review · listings shown are sample data",
+    days:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+  },
+  zh: {
+    skip:"跳至內容",
+    nav_wellness:"養生美容", nav_sports:"運動", nav_map:"地圖", nav_login:"登入", nav_list:"商戶刊登",
+    cr_home:"主頁", c_massage:"按摩", c_nails:"美甲", c_facial:"美容", c_pickleball:"匹克球", c_golf:"高球模擬", c_yoga:"瑜伽",
+    open_now:"營業中 · 22:00休息", directions:"路線指引", see_all:"查看全部相片",
+    s_h2:"服務", t_all:"全部", t_foot:"足部", t_body:"全身", t_tcm:"中醫", book:"預約",
+    sv1:"招牌腳底按摩", sv2:"足肩組合", sv3:"草本足浴",
+    sv4:"全身油壓按摩", sv5:"熱石理療", sv6:"刮痧＋拔罐",
+    r_h2:"評價", r_count:"212則評價",
+    rv1:"「90分鐘組合搞掂咗成星期嘅膊頭痛。師傅主動問咗兩次力度。」", rv1_d:"兩日前",
+    rv2:"「晏晝訂位，同日七點已經坐喺度。完場杯茶好加分。」", rv2_d:"上星期",
+    rv3:"「呢度嘅刮痧係真功夫，唔係做樣。指定Mei師傅。」", rv3_d:"上星期",
+    rv4:"「等候區細，週末幾迫。預先訂位就冇問題。」", rv4_d:"三星期前",
+    a_h2:"關於",
+    a_p1:"舒心養生喺上環同一個街角經營咗八年。團隊結合廣東推拿手法同現代運動恢復按壓，每次療程都以草本足浴開始。",
+    a_p2:"距離上環港鐵A2出口兩分鐘，海味街樓上，認住玉色招牌。",
+    h_h2:"營業時間", am_h2:"須知",
+    am1:"即時確認", am2:"網上或到店付款", am3:"輪椅通道",
+    am4:"距上環港鐵站2分鐘", am5:"提供廣東話及英語服務", am6:"48小時前免費取消",
+    from:"低至", per_visit:"每次", min_unit:"分鐘", book_now:"立即預約", wa:"WhatsApp聯絡店舖",
+    n_h2:"附近店舖", nm1:"美甲", nm2:"水療", nm3:"瑜伽",
+    md_h:"預約流程為下一個開發步驟",
+    md_p:"原型暫時到此為止。完整流程（日期、時間、人數、付款）將於第二步推出，以Roku AI預約介面為基礎。",
+    md_close:"知道了",
+    legal_line:"© 2026 Bliss Wellness · 香港",
+    f_proto:"內部審閱原型 · 所示商戶為示範數據",
+    days:["星期一","星期二","星期三","星期四","星期五","星期六","星期日"]
+  }
+};
+
+let lang = 'en';
+const langBtn = document.getElementById('langToggle');
+
+function renderDistricts(){
+  document.querySelectorAll('[data-dkey]').forEach(el=>{
+    el.textContent = districtLabel(el.getAttribute('data-dkey'), lang);
+  });
+}
+function renderHours(){
+  const dict = STR[lang];
+  const el = document.getElementById('hours');
+  const todayIdx = (new Date().getDay() + 6) % 7; /* Monday-first */
+  el.innerHTML = dict.days.map((d,i)=>
+    `<div class="${i===todayIdx?'today':''}"><span class="day">${d}</span><span>10:00 – 22:00</span></div>`
+  ).join('');
+}
+function applyLang(){
+  const dict = STR[lang];
+  document.documentElement.lang = lang === 'en' ? 'en' : 'zh-Hant';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    if(dict[k]) el.textContent = dict[k];
+  });
+  renderDistricts();
+  renderHours();
+  document.querySelectorAll('[data-min]').forEach(el=>{
+    el.textContent = el.getAttribute('data-min') + (lang === 'en' ? ' min' : ' 分鐘');
+  });
+  langBtn.textContent = lang === 'en' ? '繁' : 'EN';
+}
+langBtn.addEventListener('click', ()=>{ lang = lang === 'en' ? 'zh' : 'en'; applyLang(); });
+applyLang();
+
+/* service category tabs */
+const tabs = [...document.querySelectorAll('.svc-tab')];
+tabs.forEach(tab=>tab.addEventListener('click', ()=>{
+  tabs.forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  const cat = tab.dataset.scat;
+  document.querySelectorAll('.svc').forEach(s=>{
+    s.classList.toggle('hide', cat !== 'all' && s.dataset.scat !== cat);
+  });
+}));
+
+/* booking stub modal */
+const modalWrap = document.getElementById('modalWrap');
+const modalSvc = document.getElementById('modalSvc');
+function openModal(svcKey){
+  modalSvc.textContent = svcKey ? STR[lang][svcKey] : '';
+  modalWrap.classList.add('show');
+  document.getElementById('modalClose').focus();
+}
+document.querySelectorAll('.svc .book').forEach(b=>b.addEventListener('click', ()=>openModal(b.dataset.svc)));
+document.getElementById('railBook').addEventListener('click', ()=>openModal(null));
+document.getElementById('barBook').addEventListener('click', ()=>openModal(null));
+document.getElementById('modalClose').addEventListener('click', ()=>modalWrap.classList.remove('show'));
+modalWrap.addEventListener('click', e=>{ if(e.target === modalWrap) modalWrap.classList.remove('show'); });
+addEventListener('keydown', e=>{ if(e.key === 'Escape') modalWrap.classList.remove('show'); });
+
+/* heart */
+document.querySelectorAll('.heart').forEach(h=>h.addEventListener('click', ()=>{
+  const on = h.textContent !== '♡';
+  h.textContent = on ? '♡' : '♥';
+  h.setAttribute('aria-pressed', String(!on));
+}));
+
+/* sticky header hairline */
+const head = document.getElementById('siteHead');
+addEventListener('scroll', ()=>head.classList.toggle('scrolled', scrollY > 8), {passive:true});
+</script>
+</body>
+</html>
