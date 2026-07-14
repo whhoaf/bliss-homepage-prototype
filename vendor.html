@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --peri:#8DA5D5; --peri-10:rgba(141,165,213,.10); --peri-18:rgba(141,165,213,.20);
-    --ink:#141040; --ink-soft:#1B1452; --action:#4640DE; --action-dark:#362FC4;
-    --bg:#FEFEFF; --panel:#F5F6FD; --card:#FFFFFE; --muted:#5D6C7B;
+    --peri:#8DA3D4; --peri-10:rgba(141,163,212,.10); --peri-18:rgba(141,163,212,.20);
+    --ink:#37324B; --ink-soft:#454060; --action:#6583B9; --action-dark:#54709F;
+    --bg:#FEFEFF; --panel:#F5F6FD; --card:#FFFFFE; --muted:#6E696E;
     --apricot:#E8933A; --apricot-tint:#FEF7F1;
     --ok:#2E7D4F;
     --hairline:#E7E9F2;
@@ -33,13 +33,8 @@
   .site-head{position:sticky;top:0;z-index:50;background:rgba(254,254,255,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s ease-out}
   .site-head.scrolled{border-bottom-color:var(--hairline)}
   .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:14px}
-  .wordmark{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--peri);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-  .mark{display:inline-grid;grid-template-columns:9px 9px;gap:2px}
-  .mark i{width:9px;height:9px;background:var(--peri)}
-  .mark i:nth-child(1){border-radius:50% 50% 0 50%}
-  .mark i:nth-child(2){border-radius:50% 50% 50% 0}
-  .mark i:nth-child(3){border-radius:50% 0 50% 50%}
-  .mark i:nth-child(4){border-radius:0 50% 50% 50%}
+  .wordmark{display:inline-flex;align-items:center}
+  .wordmark img{height:30px;display:block}
   .nav-links{display:flex;gap:18px;align-items:center;font-size:14px}
   .nav-links a.plain{color:var(--ink);text-decoration:none;font-weight:600}
   .btn{display:inline-block;border:0;cursor:pointer;border-radius:999px;padding:10px 20px;font:700 14px var(--sans);text-decoration:none;transition:background .15s ease-out;white-space:nowrap;text-align:center}
@@ -51,7 +46,7 @@
   .lang-toggle:hover{border-color:var(--ink)}
 
   /* placeholders */
-  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,165,213,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
+  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,163,212,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
   .ph .cam{font-size:13px;opacity:.55}
   .ph small{font-size:10px;line-height:1.4;color:var(--muted);max-width:30ch}
   .ph small b{color:var(--ink-soft)}
@@ -134,7 +129,7 @@
   .amen .ic{width:20px;text-align:center;opacity:.75}
 
   /* rail */
-  .rail-card{position:sticky;top:82px;background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:22px;box-shadow:0 4px 24px rgba(20,16,64,.06)}
+  .rail-card{position:sticky;top:82px;background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:22px;box-shadow:0 4px 24px rgba(55,50,75,.06)}
   .rail-card .price-line{font-size:14px;color:var(--muted)}
   .rail-card .price-line b{color:var(--ink);font-size:17px}
   .rail-card .btn-book{width:100%;margin-top:14px;padding:14px;font-size:15px;border-radius:999px;background:var(--action);color:#FEFEFF;border:0;font-weight:700;cursor:pointer;transition:background .15s ease-out}
@@ -151,7 +146,7 @@
   .nearby h2{font-weight:800;font-size:21px;margin-bottom:16px}
   .n-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .n-card{background:var(--card);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .15s ease-out,box-shadow .15s ease-out;display:block}
-  .n-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,16,64,.10)}
+  .n-card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(55,50,75,.10)}
   .n-thumb{position:relative;height:130px}
   .n-thumb .ph{position:absolute;inset:0;border-radius:0 0 36px 0}
   .n-card .nb{padding:12px 14px 14px}
@@ -173,7 +168,7 @@
   .book-bar{display:none}
 
   /* stub modal */
-  .modal-wrap{position:fixed;inset:0;background:rgba(20,16,64,.45);display:none;align-items:center;justify-content:center;z-index:90;padding:24px}
+  .modal-wrap{position:fixed;inset:0;background:rgba(55,50,75,.45);display:none;align-items:center;justify-content:center;z-index:90;padding:24px}
   .modal-wrap.show{display:flex}
   .modal{background:var(--card);border-radius:16px;padding:28px;max-width:400px;width:100%;text-align:center}
   .modal h3{font-size:18px;font-weight:800}
@@ -210,7 +205,7 @@
 <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
 <div class="site-head" id="siteHead"><div class="wrap">
   <nav class="nav" aria-label="Main">
-    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>bliss</a>
+    <a class="wordmark" href="index.html" aria-label="Bliss home"><img src="assets/bliss-horizontal-periwinkle.svg" alt="bliss"></a>
     <div class="nav-links">
       <a class="plain" href="index.html#recommended" data-i18n="nav_wellness">Wellness</a>
       <a class="plain" href="index.html#sports-rail" data-i18n="nav_sports">Sports</a>

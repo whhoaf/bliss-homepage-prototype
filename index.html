@@ -10,9 +10,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --peri:#8DA5D5; --peri-10:rgba(141,165,213,.10); --peri-18:rgba(141,165,213,.20);
-    --ink:#141040; --ink-soft:#1B1452; --action:#4640DE; --action-dark:#362FC4;
-    --bg:#FEFEFF; --panel:#F5F6FD; --card:#FFFFFE; --muted:#5D6C7B;
+    --peri:#8DA3D4; --peri-10:rgba(141,163,212,.10); --peri-18:rgba(141,163,212,.20);
+    --ink:#37324B; --ink-soft:#454060; --action:#6583B9; --action-dark:#54709F;
+    --bg:#FEFEFF; --panel:#F5F6FD; --card:#FFFFFE; --muted:#6E696E;
     --apricot:#E8933A; --apricot-tint:#FEF7F1;
     --hairline:#E7E9F2;
     --serif:"Fraunces",Georgia,serif;
@@ -32,13 +32,9 @@
   .site-head{position:sticky;top:0;z-index:50;background:rgba(254,254,255,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s ease-out}
   .site-head.scrolled{border-bottom-color:var(--hairline)}
   .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:14px}
-  .wordmark{font-family:var(--serif);font-weight:600;font-size:26px;color:var(--peri);text-decoration:none;display:inline-flex;align-items:center;gap:8px}
-  .mark{display:inline-grid;grid-template-columns:9px 9px;gap:2px}
-  .mark i{width:9px;height:9px;background:var(--peri)}
-  .mark i:nth-child(1){border-radius:50% 50% 0 50%}
-  .mark i:nth-child(2){border-radius:50% 50% 50% 0}
-  .mark i:nth-child(3){border-radius:50% 0 50% 50%}
-  .mark i:nth-child(4){border-radius:0 50% 50% 50%}
+  .wordmark{display:inline-flex;align-items:center}
+  .wordmark img{height:30px;display:block}
+  footer .wordmark img{height:26px}
   .nav-links{display:flex;gap:18px;align-items:center;font-size:14px}
   .nav-links a.plain{color:var(--ink);text-decoration:none;font-weight:600}
   .btn{display:inline-block;border:0;cursor:pointer;border-radius:999px;padding:10px 20px;font:700 14px var(--sans);text-decoration:none;transition:background .15s ease-out;white-space:nowrap}
@@ -50,12 +46,14 @@
   .lang-toggle:hover{border-color:var(--ink)}
 
   /* ---------- hero ---------- */
-  .hero{position:relative;padding:64px 0 40px;text-align:center;overflow:hidden}
-  .hero .blob{position:absolute;border-radius:50%;filter:blur(70px);pointer-events:none}
-  .blob.b1{width:520px;height:420px;left:-120px;top:-140px;background:rgba(141,165,213,.42)}
-  .blob.b2{width:560px;height:440px;right:-140px;top:-120px;background:rgba(70,64,222,.16)}
-  .blob.b3{width:420px;height:320px;left:36%;top:-180px;background:rgba(232,147,58,.14)}
-  .hero::after{content:"";position:absolute;left:0;right:0;bottom:0;height:110px;background:linear-gradient(180deg,rgba(254,254,255,0),var(--bg));pointer-events:none}
+  /* brand petal blocks (quarter-rounds from the logo mark), per moodboard posters */
+  .hero{position:relative;padding:64px 0 48px;text-align:center;overflow:hidden}
+  .petal{position:absolute;pointer-events:none}
+  .petal.p1{width:400px;height:400px;left:-140px;top:-140px;background:var(--peri);border-radius:0 0 100% 0}
+  .petal.p2{width:230px;height:230px;left:-60px;top:236px;background:var(--action);border-radius:0 100% 100% 100%;opacity:.9}
+  .petal.p3{width:340px;height:340px;right:-120px;top:-120px;background:var(--action);border-radius:0 0 0 100%}
+  .petal.p4{width:220px;height:220px;right:36px;top:196px;background:var(--peri);border-radius:100% 0 100% 100%;opacity:.9}
+  .petal.p5{width:300px;height:300px;right:-40px;top:60px;border:1.5px solid rgba(254,254,255,.75);border-radius:50%}
   .hero .inner{position:relative;z-index:1}
   @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
   .hero h1{animation:rise .55s ease-out both}
@@ -64,7 +62,7 @@
   .hero .live,.hero .chips{animation:rise .55s .22s ease-out both}
   .hero h1{font-weight:800;font-size:clamp(32px,4.8vw,52px);line-height:1.06;letter-spacing:-.03em;text-wrap:balance}
   .hero .sub{font-size:16px;color:var(--muted);margin:14px auto 0;max-width:560px}
-  .search{margin:28px auto 0;background:var(--card);border:1px solid var(--hairline);border-radius:999px;box-shadow:0 4px 24px rgba(20,16,64,.08);display:flex;align-items:stretch;max-width:760px;overflow:hidden;text-align:left}
+  .search{margin:28px auto 0;background:var(--card);border:1px solid var(--hairline);border-radius:999px;box-shadow:0 4px 24px rgba(55,50,75,.08);display:flex;align-items:stretch;max-width:760px;overflow:hidden;text-align:left}
   .slot{flex:1;display:flex;align-items:center;gap:9px;padding:8px 8px 8px 18px;border-right:1px solid var(--hairline);min-width:0}
   .slot svg{flex:none;width:16px;height:16px;stroke:var(--muted)}
   .slot input{border:0;outline:0;background:transparent;font:14.5px var(--sans);color:var(--ink);width:100%;padding:8px 0}
@@ -79,7 +77,7 @@
   .chip.active{background:var(--ink);border-color:var(--ink);color:#FEFEFF}
 
   /* ---------- image placeholders ---------- */
-  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,165,213,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
+  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,163,212,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
   .ph .cam{font-size:13px;opacity:.55}
   .ph small{font-size:10px;line-height:1.4;color:var(--muted);max-width:26ch}
   .ph small b{color:var(--ink-soft)}
@@ -98,7 +96,7 @@
   .rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x proximity;padding:16px 2px 22px;scrollbar-width:none}
   .rail::-webkit-scrollbar{display:none}
   .vcard{flex:0 0 258px;scroll-snap-align:start;background:var(--card);border:1px solid var(--hairline);border-radius:14px;overflow:hidden;transition:transform .15s ease-out,box-shadow .15s ease-out;cursor:pointer}
-  .vcard:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,16,64,.10)}
+  .vcard:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(55,50,75,.10)}
   .vcard.hide{display:none}
   .vthumb{position:relative;height:150px}
   .vthumb .ph{position:absolute;inset:0}
@@ -113,7 +111,7 @@
   .vmeta{color:var(--muted);font-size:12.5px;margin-top:2px}
   .vprice{font-size:13px;margin-top:7px}
   .vprice b{font-weight:700}
-  .vpromo{display:inline-block;background:var(--apricot-tint);color:var(--apricot);border-radius:999px;padding:2px 9px;font-size:11px;font-weight:700;margin-top:7px}
+  .vpromo{display:inline-block;background:var(--peri-10);color:var(--action);border-radius:999px;padding:2px 9px;font-size:11px;font-weight:700;margin-top:7px}
   .no-results{display:none;margin:8px 0 26px;padding:26px;border:1.5px dashed var(--peri);border-radius:14px;text-align:center;color:var(--muted)}
   .no-results.show{display:block}
 
@@ -121,7 +119,7 @@
   .vert-sec{padding:34px 0}
   .vert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
   .vert{position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--hairline);background:var(--card);cursor:pointer;transition:transform .15s ease-out,box-shadow .15s ease-out}
-  .vert:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,16,64,.10)}
+  .vert:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(55,50,75,.10)}
   .vert .ph{height:130px}
   .vert .vb{padding:14px 16px 16px}
   .vert h3{font-size:17px;font-weight:800}
@@ -190,8 +188,8 @@
   .biz-copy .score{font-size:13px;color:var(--muted)}
   .biz-copy .score b{color:var(--ink)}
   .biz-shot{position:relative}
-  .biz-shot .ph{border-radius:14px;height:340px;box-shadow:0 12px 36px rgba(20,16,64,.12)}
-  .biz-shot .mini{position:absolute;left:-26px;bottom:-24px;width:200px;height:140px;border-radius:12px;box-shadow:0 10px 26px rgba(20,16,64,.16)}
+  .biz-shot .ph{border-radius:14px;height:340px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
+  .biz-shot .mini{position:absolute;left:-26px;bottom:-24px;width:200px;height:140px;border-radius:12px;box-shadow:0 10px 26px rgba(55,50,75,.16)}
 
   /* ---------- directory ---------- */
   .dir-sec{padding:50px 0 14px}
@@ -224,6 +222,9 @@
     .nav-links{gap:10px;font-size:13px;flex-wrap:wrap;width:100%}
     .btn{padding:8px 14px;font-size:12.5px}
     .hero{padding:40px 0 32px}
+    .petal.p1{width:190px;height:190px;left:-70px;top:-70px}
+    .petal.p2,.petal.p4,.petal.p5{display:none}
+    .petal.p3{width:150px;height:150px;right:-55px;top:-55px}
     .search{flex-direction:column;border-radius:18px}
     .slot{border-right:0;border-bottom:1px solid var(--hairline)}
     .search .go{margin:10px;padding:13px}
@@ -246,7 +247,7 @@
 <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
 <div class="site-head" id="siteHead"><div class="wrap">
   <nav class="nav" aria-label="Main">
-    <a class="wordmark" href="#"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>bliss</a>
+    <a class="wordmark" href="#" aria-label="Bliss home"><img src="assets/bliss-horizontal-periwinkle.svg" alt="bliss"></a>
     <div class="nav-links">
       <a class="plain" href="#recommended" data-i18n="nav_wellness">Wellness</a>
       <a class="plain" href="#sports-rail" data-i18n="nav_sports">Sports</a>
@@ -259,7 +260,7 @@
 </div></div>
 
 <header class="hero">
-  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div><div class="petal p5"></div>
   <div class="wrap inner">
     <h1 data-i18n="hero_h1">Book local self-care and sports</h1>
     <p class="sub" data-i18n="hero_sub">Discover top-rated massage, nails, spa, pickleball, golf sim and yoga across Hong Kong.</p>
@@ -693,7 +694,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a class="wordmark" href="#" style="font-size:21px"><span class="mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>bliss</a>
+        <a class="wordmark" href="#" aria-label="Bliss home"><img src="assets/bliss-horizontal-periwinkle.svg" alt="bliss"></a>
         <p style="font-size:13px;color:var(--muted);margin-top:10px;max-width:30ch" data-i18n="f_tag">Hong Kong's search and booking platform for wellness and sports.</p>
       </div>
       <div>
