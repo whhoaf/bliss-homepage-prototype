@@ -82,9 +82,11 @@
 
   @media (min-width:960px){
     .bk-head{background:transparent;border-bottom:0}
+    .bk-head .inner{max-width:1100px}
     .bk-head .vend{visibility:hidden}
     .prog{display:none}
     .crumb-row{display:flex;align-items:center;gap:16px;max-width:1100px;margin:8px auto 0;padding:0 20px}
+    .crumb-row #backFloat{display:none}
     .crumbs{display:flex;gap:8px;font-size:13.5px;flex-wrap:wrap;align-items:center}
     .crumbs button{background:none;border:0;font:600 13.5px var(--sans);color:var(--lgrey);padding:0;cursor:default}
     .crumbs button.done{color:var(--muted);cursor:pointer}
@@ -692,6 +694,7 @@ function show(id, push=true){
   render(id);
   renderBar();
   renderProg();
+  alignSumCard();
   scrollTo({top:0, behavior:'auto'});
 }
 function goBack(){
@@ -1009,6 +1012,28 @@ function renderSum(){
   $('sumNext').textContent=nextLabel();
   $('sumNext').disabled=!canNext();
 }
+function alignSumCard(){
+  /* Desktop: drop the summary card so its top meets the screen's first
+     content block, leaving the heading + subtitle as a header above. */
+  const card=$('sumCard'), grid=$('bkGrid');
+  if(!window.matchMedia('(min-width:960px)').matches || grid.classList.contains('no-sum')){
+    card.style.marginTop=''; return;
+  }
+  const screen=document.querySelector('.screen.on');
+  if(!screen){ card.style.marginTop=''; return; }
+  let target=null;
+  for(const el of screen.children){
+    if(el.matches('h1, .sub, .login-hint')) continue;      /* header text */
+    if(getComputedStyle(el).display==='none') continue;     /* hidden variant block */
+    target=el; break;
+  }
+  if(!target){ card.style.marginTop=''; return; }
+  /* Sum offsetTop up the chain for both, so the measurement is immune to the
+     entry-animation transform (which reparents offsetTop) and to any offsetParent flip. */
+  const absTop=el=>{let y=0;while(el){y+=el.offsetTop;el=el.offsetParent;}return y;};
+  const off = absTop(target) - absTop(grid);
+  card.style.marginTop = (off>0?off:0) + 'px';
+}
 function crumbTarget(i){
   if(i===0) return seq()[0];
   if(i===1) return 's2';
@@ -1126,13 +1151,17 @@ function applyLang(){
     if(dict[k]) el.setAttribute('placeholder',dict[k]);
   });
   $('langToggle').textContent = lang==='en'?'繁':'EN';
-  render(S.screen); renderBar(); renderProg(); renderHead();
+  render(S.screen); renderBar(); renderProg(); renderHead(); alignSumCard();
 }
 $('langToggle').onclick=()=>{lang=lang==='en'?'zh':'en';applyLang();};
+addEventListener('resize', alignSumCard);
 
 /* ================= boot ================= */
 applyLang();
 show(seq()[0], false);
+/* Re-align the summary card once web fonts settle (heading height changes). */
+addEventListener('load', alignSumCard);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(alignSumCard);
 </script>
 </body>
 </html>
