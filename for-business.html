@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bliss for Business — get booked 24/7</title>
+<meta name="description" content="List your wellness or sports business on Bliss. Zero commission, monthly per-head plans, bilingual storefront.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;1,9..144,500&family=Archivo:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --peri:#8DA3D4; --peri-10:rgba(141,163,212,.10); --peri-18:rgba(141,163,212,.20);
+    --ink:#37324B; --ink-soft:#454060; --action:#6583B9; --action-dark:#54709F;
+    --bg:#FEFEFF; --panel:#F5F6FD; --card:#FFFFFE; --muted:#6E696E; --lgrey:#AAAAB4;
+    --apricot:#E8933A;
+    --hairline:#E7E9F2;
+    --serif:"Fraunces","Noto Serif TC",Georgia,serif;
+    --sans:"Archivo","Noto Sans TC","Helvetica Neue",Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{background:var(--bg);scroll-behavior:smooth}
+  body{font-family:var(--sans);color:var(--ink);background:var(--bg);line-height:1.55;font-size:15.5px}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+  a{color:var(--action)}
+  :focus-visible{outline:3px solid var(--action);outline-offset:2px;border-radius:4px}
+  h1,h2,h3{letter-spacing:-.015em}
+  .skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#FEFEFF;padding:10px 18px;border-radius:0 0 10px 0;z-index:100;font-weight:700;text-decoration:none}
+  .skip:focus{left:0}
+
+  /* ---------- nav ---------- */
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(254,254,255,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid transparent;transition:border-color .2s ease-out}
+  .site-head.scrolled{border-bottom-color:var(--hairline)}
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;gap:14px}
+  .wordmark{display:inline-flex;align-items:center}
+  .wordmark img{height:30px;display:block}
+  footer .wordmark img{height:26px}
+  .nav-links{display:flex;gap:18px;align-items:center;font-size:14px}
+  .nav-links a.plain{color:var(--ink);text-decoration:none;font-weight:600}
+  .btn{display:inline-block;border:0;cursor:pointer;border-radius:999px;padding:10px 20px;font:700 14px var(--sans);text-decoration:none;transition:background .15s ease-out;white-space:nowrap}
+  .btn-primary{background:var(--ink);color:#FEFEFF}
+  .btn-primary:hover{background:var(--action)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--hairline);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink)}
+  .btn-ondark{background:#FEFEFF;color:var(--ink)}
+  .btn-ondark:hover{background:var(--peri);color:var(--ink)}
+  .lang-toggle{background:transparent;border:1px solid var(--hairline);border-radius:999px;padding:7px 13px;font:600 13px var(--sans);color:var(--ink);cursor:pointer}
+  .lang-toggle:hover{border-color:var(--ink)}
+
+  /* ---------- image placeholders (site convention) ---------- */
+  .ph{background:linear-gradient(150deg,var(--peri-18),var(--panel));border:1px dashed rgba(141,163,212,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:10px;text-align:center;color:var(--ink-soft)}
+  .ph .cam{font-size:13px;opacity:.55}
+  .ph small{font-size:10px;line-height:1.4;color:var(--muted);max-width:28ch}
+  .ph small b{color:var(--ink-soft)}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;padding:56px 0 60px;overflow:hidden}
+  .petal{position:absolute;pointer-events:none}
+  .petal.p1{width:360px;height:360px;left:-150px;top:-150px;background:var(--peri);border-radius:0 0 100% 0}
+  .petal.p2{width:170px;height:170px;left:-115px;top:170px;background:var(--action);border-radius:0 100% 100% 100%;opacity:.85}
+  .petal.p3{width:260px;height:260px;right:-110px;bottom:-120px;background:var(--peri);border-radius:100% 0 0 0;opacity:.85}
+  .petal.p4{width:230px;height:230px;right:-60px;bottom:-30px;border:1.5px solid rgba(141,163,212,.5);border-radius:50%}
+  .hero .inner{position:relative;z-index:1;display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center}
+  @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  .hero h1{animation:rise .55s ease-out both;font-weight:800;font-size:clamp(30px,4.4vw,48px);line-height:1.07;letter-spacing:-.03em;text-wrap:balance}
+  .hero .sub{animation:rise .55s .07s ease-out both;font-size:16px;color:var(--muted);margin-top:14px;max-width:52ch}
+  .hero .cta-row{animation:rise .55s .14s ease-out both;margin-top:26px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .hero .cta-note{font-size:13px;color:var(--muted)}
+  .hero-shot{animation:rise .55s .18s ease-out both;position:relative}
+  .hero-shot .ph{height:360px;border-radius:16px 16px 16px 72px;box-shadow:0 16px 44px rgba(55,50,75,.14)}
+  .hero-shot .mini{position:absolute;right:-18px;bottom:-26px;width:190px;height:150px;border-radius:12px;box-shadow:0 10px 26px rgba(55,50,75,.16)}
+
+  /* ---------- facts band ---------- */
+  .facts{background:var(--panel);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:26px 0}
+  .facts .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .fact b{display:block;font-family:var(--serif);font-weight:600;font-size:26px;letter-spacing:-.01em}
+  .fact span{font-size:13px;color:var(--muted)}
+
+  /* ---------- generic section head ---------- */
+  section{padding:56px 0}
+  .sec-head{max-width:640px;margin-bottom:30px}
+  .sec-head .eyebrow{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--action);margin-bottom:8px}
+  .sec-head h2{font-weight:800;font-size:clamp(24px,3.2vw,36px);letter-spacing:-.025em;text-wrap:balance}
+  .sec-head p{color:var(--muted);margin-top:10px}
+
+  /* ---------- three models (signature) ---------- */
+  .models{padding-top:64px}
+  .model-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .model{background:var(--card);border:1px solid var(--hairline);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .15s ease-out,box-shadow .15s ease-out}
+  .model:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(55,50,75,.10)}
+  .model .ph{height:170px;border-radius:0 0 52px 0;border-left:0;border-top:0;border-right:0}
+  .model .body{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
+  .model h3{font-size:18px;font-weight:800}
+  .model .how{font-size:12.5px;font-weight:700;color:var(--action);letter-spacing:.02em}
+  .model p{font-size:14px;color:var(--muted)}
+  .model .fit{margin-top:auto;padding-top:10px;font-size:12.5px;color:var(--ink-soft)}
+  .model .fit b{color:var(--ink)}
+  .model.sport{border-color:var(--peri)}
+  .model .flag{display:inline-block;background:var(--peri-18);color:var(--ink);border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:700;margin-bottom:2px;align-self:flex-start}
+
+  /* ---------- software features ---------- */
+  .soft{background:var(--panel);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .soft-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .feat-list{display:grid;grid-template-columns:1fr 1fr;gap:18px 24px;margin-top:6px}
+  .feat{display:flex;gap:12px;align-items:flex-start}
+  .feat svg{flex:none;width:22px;height:22px;stroke:var(--action);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+  .feat b{display:block;font-size:14.5px}
+  .feat span{font-size:13px;color:var(--muted)}
+  .soft-shot .ph{height:380px;border-radius:14px 14px 14px 64px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
+
+  /* ---------- marketplace ---------- */
+  .market-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .market-shot .ph{height:340px;border-radius:14px 14px 64px 14px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
+  .market-copy ul{margin:14px 0 0 18px;font-size:14.5px}
+  .market-copy li{margin-top:8px}
+  .market-copy li b{font-weight:700}
+
+  /* ---------- switching worries ---------- */
+  .worry-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .worry{background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:22px}
+  .worry .q{font-family:var(--serif);font-style:italic;font-weight:500;font-size:17px;color:var(--ink-soft)}
+  .worry .a{margin-top:12px;font-size:14px;color:var(--muted)}
+  .worry .a b{color:var(--ink)}
+
+  /* ---------- payments strip ---------- */
+  .pay{background:var(--panel);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline)}
+  .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
+  .pay-points{display:flex;flex-direction:column;gap:14px;margin-top:6px}
+  .pay-point{display:flex;gap:12px;align-items:flex-start}
+  .pay-point svg{flex:none;width:22px;height:22px;stroke:var(--action);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
+  .pay-point b{display:block;font-size:14.5px}
+  .pay-point span{font-size:13px;color:var(--muted)}
+  .pay-shot .ph{height:280px;border-radius:14px 64px 14px 14px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
+
+  /* ---------- case studies ---------- */
+  .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .case{background:var(--card);border:1px solid var(--hairline);border-radius:16px;overflow:hidden;display:flex;flex-direction:column}
+  .case .vid{position:relative;height:180px}
+  .case .vid .ph{position:absolute;inset:0;border:0;border-bottom:1px dashed rgba(141,163,212,.55)}
+  .case .vid .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:rgba(254,254,255,.94);display:flex;align-items:center;justify-content:center;font-size:15px;color:var(--ink);box-shadow:0 4px 14px rgba(55,50,75,.2);z-index:1}
+  .case .body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .case .tag{font-size:11.5px;font-weight:700;color:var(--action);letter-spacing:.06em;text-transform:uppercase}
+  .case blockquote{font-family:var(--serif);font-style:italic;font-weight:500;font-size:16.5px;line-height:1.45;color:var(--ink-soft)}
+  .case .who{margin-top:auto;padding-top:8px;font-size:13px;color:var(--muted)}
+  .case .who b{color:var(--ink);font-weight:700}
+  .case .stat{font-size:13px;color:var(--ink-soft);border-top:1px solid var(--hairline);padding-top:10px}
+  .case .stat b{font-family:var(--serif);font-weight:600;font-size:17px}
+
+  /* ---------- pricing ---------- */
+  .price-explain{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:26px}
+  .px{background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:20px}
+  .px b{display:block;font-size:14.5px;margin-bottom:6px}
+  .px p{font-size:13.5px;color:var(--muted)}
+  .px .big{font-family:var(--serif);font-weight:600;font-size:24px;display:block;margin-bottom:6px;color:var(--ink)}
+  .price-chart .ph{height:300px;border-radius:16px}
+  .price-note{margin-top:14px;font-size:13px;color:var(--muted);max-width:70ch}
+
+  /* ---------- faq ---------- */
+  .faq-list{max-width:760px}
+  .faq{border-bottom:1px solid var(--hairline)}
+  .faq summary{cursor:pointer;padding:18px 30px 18px 2px;font-weight:700;font-size:15.5px;list-style:none;position:relative}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary::after{content:"＋";position:absolute;right:4px;top:50%;transform:translateY(-50%);color:var(--action);font-weight:400;font-size:17px;transition:transform .15s ease-out}
+  .faq[open] summary::after{content:"−"}
+  .faq .ans{padding:0 30px 18px 2px;font-size:14.5px;color:var(--muted);max-width:64ch}
+
+  /* ---------- final CTA (dark plum panel) ---------- */
+  .cta-panel{background:var(--ink);color:#FEFEFF;border-radius:20px;padding:52px 48px;position:relative;overflow:hidden}
+  .cta-panel .petal-d1{position:absolute;width:240px;height:240px;right:-90px;top:-90px;background:var(--action);border-radius:0 0 0 100%;opacity:.55}
+  .cta-panel .petal-d2{position:absolute;width:180px;height:180px;right:60px;bottom:-80px;border:1.5px solid rgba(254,254,255,.35);border-radius:50%}
+  .cta-panel .inner{position:relative;z-index:1;max-width:560px}
+  .cta-panel h2{font-weight:800;font-size:clamp(24px,3.2vw,36px);letter-spacing:-.025em;color:#FEFEFF;text-wrap:balance}
+  .cta-panel p{margin-top:10px;color:rgba(254,254,255,.78);font-size:15px}
+  .cta-panel .row{margin-top:24px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  /* signup stub */
+  .signup{margin-top:26px;display:none;gap:12px;flex-wrap:wrap}
+  .signup.show{display:flex}
+  .signup input,.signup select{border:0;border-radius:12px;padding:12px 14px;font:14px var(--sans);color:var(--ink);min-width:170px;flex:1}
+  .signup .btn{flex:none}
+  .signup-ok{display:none;margin-top:18px;font-size:14.5px;font-weight:600;color:#FEFEFF}
+  .signup-ok.show{display:block}
+
+  /* ---------- footer ---------- */
+  footer{padding:44px 0 32px}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:28px;padding-bottom:26px;border-bottom:1px solid var(--hairline)}
+  footer h4{font-size:13px;font-weight:800;margin-bottom:10px}
+  footer a{display:block;color:var(--muted);text-decoration:none;font-size:13.5px;padding:3px 0}
+  footer a:hover{color:var(--ink)}
+  .legal{display:flex;justify-content:space-between;gap:14px;padding-top:18px;font-size:12.5px;color:var(--lgrey);flex-wrap:wrap}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:960px){
+    .hero .inner{grid-template-columns:1fr;gap:30px}
+    .hero-shot .ph{height:280px}
+    .hero-shot .mini{right:8px}
+    .facts .grid{grid-template-columns:1fr 1fr;gap:16px}
+    .model-grid,.worry-grid,.case-grid,.price-explain{grid-template-columns:1fr}
+    .soft-grid,.market-grid,.pay-grid{grid-template-columns:1fr}
+    .market-grid .market-shot{order:2}
+    .petal.p1{width:230px;height:230px;left:-95px;top:-95px}
+    .petal.p2,.petal.p3,.petal.p4{display:none}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .cta-panel{padding:38px 26px}
+  }
+  @media (max-width:560px){
+    .nav{padding:12px 0;flex-wrap:wrap}
+    .nav-links{gap:10px;font-size:13px;flex-wrap:wrap}
+    section{padding:44px 0}
+    .facts .grid{grid-template-columns:1fr 1fr}
+    .feat-list{grid-template-columns:1fr}
+    .petal.p1{width:170px;height:170px;left:-65px;top:-65px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+
+<header class="site-head" id="siteHead">
+  <div class="wrap nav">
+    <a class="wordmark" href="index.html" aria-label="Bliss home"><img src="assets/bliss-horizontal-periwinkle.svg" alt="bliss"></a>
+    <div class="nav-links">
+      <a class="plain" href="#pricing" data-i18n="nav_pricing">Pricing</a>
+      <a class="plain" href="index.html" data-i18n="nav_consumer">For consumers</a>
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">繁</button>
+      <a class="btn btn-primary" href="#signup" data-i18n="nav_cta">List your business</a>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- hero -->
+  <section class="hero">
+    <div class="petal p1"></div><div class="petal p2"></div><div class="petal p3"></div><div class="petal p4"></div>
+    <div class="wrap inner">
+      <div>
+        <h1 data-i18n="h_h1">The booking platform built for Hong Kong wellness and sports</h1>
+        <p class="sub" data-i18n="h_sub">Salons, spas, courts and studios run on Bliss. Take bookings 24/7, keep your regulars close and get found by new clients, in English and Chinese from day one.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="#signup" data-i18n="h_cta">List your business</a>
+          <a class="btn btn-ghost" href="#models" data-i18n="h_cta2">See how it works</a>
+        </div>
+        <p class="cta-note" style="margin-top:14px" data-i18n="h_note">Set up in about 30 minutes. No sales calls, no setup fees.</p>
+      </div>
+      <div class="hero-shot">
+        <div class="ph"><span class="cam">🖥️</span><small><b>Screenshot:</b> Bliss back office weekly calendar, colour-coded bookings per staff member, desktop browser frame. Landscape 16:10</small></div>
+        <div class="ph mini"><span class="cam">📱</span><small><b>Screenshot:</b> same booking arriving as a phone notification</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- facts band -->
+  <div class="facts">
+    <div class="wrap grid">
+      <div class="fact"><b>0%</b><span data-i18n="fact1">commission on bookings you serve</span></div>
+      <div class="fact"><b data-i18n="fact2b">Per head</b><span data-i18n="fact2">monthly plans sized to your bookable team</span></div>
+      <div class="fact"><b>EN + 繁</b><span data-i18n="fact3">bilingual storefront as standard</span></div>
+      <div class="fact"><b data-i18n="fact4b">KPay</b><span data-i18n="fact4">payments through our partner network</span></div>
+    </div>
+  </div>
+
+  <!-- three models -->
+  <section class="models wrap" id="models">
+    <div class="sec-head">
+      <p class="eyebrow" data-i18n="m_eye">Three ways to run</p>
+      <h2 data-i18n="m_h2">Whatever you book, Bliss speaks it</h2>
+      <p data-i18n="m_p">Wellness, sports or both. Your storefront and calendar follow how your business actually takes bookings, not the other way round.</p>
+    </div>
+    <div class="model-grid">
+      <article class="model">
+        <div class="ph"><span class="cam">📷</span><small><b>Photo:</b> therapist mid-treatment, bright natural light, foot massage or facial</small></div>
+        <div class="body">
+          <h3 data-i18n="m1_h">Wellness</h3>
+          <p class="how" data-i18n="m1_how">Booked by service</p>
+          <p data-i18n="m1_p">Clients pick a treatment, a time and a therapist. Menus of up to 10 services with durations and prices, shown in both languages.</p>
+          <p class="fit"><b data-i18n="m1_fit_b">Fits:</b> <span data-i18n="m1_fit">massage, spa, nails, facials, TCM</span></p>
+        </div>
+      </article>
+      <article class="model sport">
+        <div class="ph"><span class="cam">📷</span><small><b>Photo:</b> pickleball rally or golf-sim swing, energetic, indoor venue</small></div>
+        <div class="body">
+          <span class="flag" data-i18n="m2_flag">The gap in HK</span>
+          <h3 data-i18n="m2_h">Sports</h3>
+          <p class="how" data-i18n="m2_how">Booked by class or coach</p>
+          <p data-i18n="m2_p">Sessions with spots left, coach profiles and coach-first booking. No HK platform aggregates sports venues today. Bliss is built for it.</p>
+          <p class="fit"><b data-i18n="m2_fit_b">Fits:</b> <span data-i18n="m2_fit">pickleball, golf sim, PT, strength studios</span></p>
+        </div>
+      </article>
+      <article class="model">
+        <div class="ph"><span class="cam">📷</span><small><b>Photo:</b> yoga studio, small group class plus a private session visible</small></div>
+        <div class="body">
+          <h3 data-i18n="m3_h">Hybrid</h3>
+          <p class="how" data-i18n="m3_how">Services and classes, two tabs</p>
+          <p data-i18n="m3_p">Studios that sell both privates and group classes get one storefront with both booking paths. Clients switch with a tap.</p>
+          <p class="fit"><b data-i18n="m3_fit_b">Fits:</b> <span data-i18n="m3_fit">yoga, pilates, dance, mixed studios</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- software -->
+  <section class="soft">
+    <div class="wrap soft-grid">
+      <div>
+        <div class="sec-head" style="margin-bottom:18px">
+          <p class="eyebrow" data-i18n="s_eye">Your day, handled</p>
+          <h2 data-i18n="s_h2">One calendar for the whole shop</h2>
+          <p data-i18n="s_p">Everything you juggle in WhatsApp threads and paper diaries, in one place your whole team can see.</p>
+        </div>
+        <div class="feat-list">
+          <div class="feat"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><div><b data-i18n="f1_b">Live calendar</b><span data-i18n="f1_s">Bookings land instantly, colour-coded per staff member</span></div></div>
+          <div class="feat"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg><div><b data-i18n="f2_b">Client records</b><span data-i18n="f2_s">Visit history, preferences and notes per client</span></div></div>
+          <div class="feat"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"/><path d="M10 21a2 2 0 0 0 4 0"/></svg><div><b data-i18n="f3_b">Reminders</b><span data-i18n="f3_s">Automatic WhatsApp and email confirmations cut no-shows</span></div></div>
+          <div class="feat"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="10" r="2.5"/><path d="M2.5 20c0-3.5 3-5.5 6.5-5.5s6.5 2 6.5 5.5M17 15.5c2.5 0 4.5 1.5 4.5 4.5"/></svg><div><b data-i18n="f4_b">Staff and coach schedules</b><span data-i18n="f4_s">Each person manages their own column and hours</span></div></div>
+          <div class="feat"><svg viewBox="0 0 24 24"><path d="M20 12v8H4v-8M2 7h20v5H2zM12 7v13M12 7s-1-4-4-4-2.5 4 4 4M12 7s1-4 4-4 2.5 4-4 4"/></svg><div><b data-i18n="f5_b">Promo codes</b><span data-i18n="f5_s">New-client offers and campaigns you control</span></div></div>
+          <div class="feat"><svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-9M22 20H2"/></svg><div><b data-i18n="f6_b">Simple reports</b><span data-i18n="f6_s">Bookings, revenue and repeat rate, by week or month</span></div></div>
+        </div>
+      </div>
+      <div class="soft-shot">
+        <div class="ph"><span class="cam">🖥️</span><small><b>Screenshot:</b> back office day view, one column per therapist/coach, a booking being dragged to a new slot. Portrait 4:5</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- marketplace growth -->
+  <section class="wrap">
+    <div class="market-grid">
+      <div class="market-shot">
+        <div class="ph"><span class="cam">📱</span><small><b>Screenshot:</b> Bliss consumer homepage on a phone, search bar plus vendor cards, your shop visible in results. Portrait 4:5</small></div>
+      </div>
+      <div class="market-copy">
+        <div class="sec-head" style="margin-bottom:6px">
+          <p class="eyebrow" data-i18n="mk_eye">The marketplace</p>
+          <h2 data-i18n="mk_h2">New clients search. You show up.</h2>
+          <p data-i18n="mk_p">Bliss is where Hong Kong searches for wellness and sports by district, category and map. Your storefront works while you work.</p>
+        </div>
+        <ul>
+          <li data-i18n="mk_l1"><b>Found by district and category.</b> Sheung Wan massage, Kwun Tong pickleball, wherever you are.</li>
+          <li data-i18n="mk_l2"><b>Reviews build your rating.</b> Verified clients only, no anonymous reviews.</li>
+          <li data-i18n="mk_l3"><b>Zero commission.</b> A new client found on Bliss costs you the same as a regular: nothing per booking.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- switching worries -->
+  <section class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-i18n="w_eye">Thinking of switching</p>
+      <h2 data-i18n="w_h2">The three questions every owner asks us</h2>
+    </div>
+    <div class="worry-grid">
+      <div class="worry">
+        <p class="q" data-i18n="w1_q">“What happens to my client list if I ever leave?”</p>
+        <p class="a" data-i18n="w1_a"><b>It stays yours.</b> Your clients, visit history and contact details export to a spreadsheet any time, no lock-in, no questions.</p>
+      </div>
+      <div class="worry">
+        <p class="q" data-i18n="w2_q">“I don't have time to learn another system.”</p>
+        <p class="a" data-i18n="w2_a"><b>Most shops are live in about 30 minutes.</b> We import your service menu and client list for you, and support is on WhatsApp in Cantonese or English.</p>
+      </div>
+      <div class="worry">
+        <p class="q" data-i18n="w3_q">“Won't competitors on the platform see my clients?”</p>
+        <p class="a" data-i18n="w3_a"><b>No. Your client list is private to you.</b> Other merchants never see who books you, what they paid or when they visit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- payments -->
+  <section class="pay">
+    <div class="wrap pay-grid">
+      <div>
+        <div class="sec-head" style="margin-bottom:14px">
+          <p class="eyebrow" data-i18n="p_eye">Payments</p>
+          <h2 data-i18n="p_h2">Get paid before they even arrive</h2>
+        </div>
+        <div class="pay-points">
+          <div class="pay-point"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="3"/><path d="M2 10h20"/></svg><div><b data-i18n="p1_b">Card and mobile payments via KPay</b><span data-i18n="p1_s">Our payments partner across Hong Kong retail</span></div></div>
+          <div class="pay-point"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-9-9"/><path d="M17 3h4v4M21 3l-8 8"/></svg><div><b data-i18n="p2_b">VIP wallet keeps regulars coming back</b><span data-i18n="p2_s">Clients top up a prepaid balance with your shop and spend it down visit by visit</span></div></div>
+          <div class="pay-point"><svg viewBox="0 0 24 24"><path d="M12 2 3 7v6c0 5 4 8 9 9 5-1 9-4 9-9V7z"/><path d="m9 12 2 2 4-4"/></svg><div><b data-i18n="p3_b">Deposits protect your no-show slots</b><span data-i18n="p3_s">Optional per-service deposits, kept if a client cancels inside 48 hours</span></div></div>
+        </div>
+      </div>
+      <div class="pay-shot">
+        <div class="ph"><span class="cam">📷</span><small><b>Photo:</b> client tapping phone on a card terminal at a salon front desk, KPay terminal visible. Landscape 3:2</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- case studies -->
+  <section class="wrap" id="stories">
+    <div class="sec-head">
+      <p class="eyebrow" data-i18n="c_eye">Partner stories</p>
+      <h2 data-i18n="c_h2">One from each world</h2>
+    </div>
+    <div class="case-grid">
+      <article class="case">
+        <div class="vid">
+          <div class="ph"><span class="cam">🎬</span><small><b>Video:</b> Serenity owner testimonial, 60-90s, filmed in-shop (shoot in progress)</small></div>
+          <span class="play">▶</span>
+        </div>
+        <div class="body">
+          <p class="tag" data-i18n="c1_tag">Wellness · Sheung Wan</p>
+          <blockquote data-i18n="c1_q">“Regulars book at midnight now. The phone finally stops ringing during treatments.”</blockquote>
+          <p class="who"><b>Serenity Foot &amp; Body 舒心養生</b><br><span data-i18n="c1_who">Foot and body massage, 4 therapists</span></p>
+          <p class="stat"><b data-i18n="c1_stat_b">Placeholder metric</b><br><span data-i18n="c1_stat">confirm with real partner data before investor use</span></p>
+        </div>
+      </article>
+      <article class="case">
+        <div class="vid">
+          <div class="ph"><span class="cam">🎬</span><small><b>Video:</b> Rally Point coach testimonial, courtside, 60-90s (shoot in progress)</small></div>
+          <span class="play">▶</span>
+        </div>
+        <div class="body">
+          <p class="tag" data-i18n="c2_tag">Sports · Kwun Tong</p>
+          <blockquote data-i18n="c2_q">“Players book a coach, not just a slot. Our beginner clinics fill themselves.”</blockquote>
+          <p class="who"><b>Rally Point Pickleball</b><br><span data-i18n="c2_who">Indoor pickleball, 3 coaches</span></p>
+          <p class="stat"><b data-i18n="c2_stat_b">Placeholder metric</b><br><span data-i18n="c2_stat">confirm with real partner data before investor use</span></p>
+        </div>
+      </article>
+      <article class="case">
+        <div class="vid">
+          <div class="ph"><span class="cam">🎬</span><small><b>Video:</b> Moon Yoga founder testimonial, studio at golden hour, 60-90s (shoot in progress)</small></div>
+          <span class="play">▶</span>
+        </div>
+        <div class="body">
+          <p class="tag" data-i18n="c3_tag">Hybrid · Sai Ying Pun</p>
+          <blockquote data-i18n="c3_q">“Classes and privates finally live on one page. Clients stopped asking which link to use.”</blockquote>
+          <p class="who"><b>Moon Yoga Studio 月瑜伽</b><br><span data-i18n="c3_who">Group classes and private sessions</span></p>
+          <p class="stat"><b data-i18n="c3_stat_b">Placeholder metric</b><br><span data-i18n="c3_stat">confirm with real partner data before investor use</span></p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- pricing -->
+  <section class="wrap" id="pricing">
+    <div class="sec-head">
+      <p class="eyebrow" data-i18n="pr_eye">Pricing</p>
+      <h2 data-i18n="pr_h2">Pay for the people who take bookings</h2>
+      <p data-i18n="pr_p">No yearly contract. Your monthly plan is sized by how many staff, coaches or classes are open for booking, so a two-chair shop never pays like a chain.</p>
+    </div>
+    <div class="price-explain">
+      <div class="px"><span class="big" data-i18n="pr1_big">Per head, monthly</span><b data-i18n="pr1_b">Sized to your team</b><p data-i18n="pr1_p">Priced per bookable therapist, coach or class. Add or remove heads as your roster changes.</p></div>
+      <div class="px"><span class="big" data-i18n="pr2_big">Tier discounts</span><b data-i18n="pr2_b">Cheaper as you grow</b><p data-i18n="pr2_p">Larger teams unlock percentage discounts, for example around 10% off at 10 bookable staff.</p></div>
+      <div class="px"><span class="big" data-i18n="pr3_big">CRM and loyalty</span><b data-i18n="pr3_b">3 months to start</b><p data-i18n="pr3_p">The client-records and loyalty module is billed 3 months upfront when you join, then monthly.</p></div>
+    </div>
+    <div class="price-chart">
+      <div class="ph"><span class="cam">📊</span><small><b>Pricing chart:</b> Suki's monthly per-head pricing table (WhatsApp, pending). Columns per vertical: Wellness / Sports / Hybrid; rows: per-head price, tier discounts, CRM module. Sports priced above wellness.</small></div>
+    </div>
+    <p class="price-note" data-i18n="pr_note">Exact per-head rates by vertical are being finalised and will appear here. Sports plans are priced above wellness plans.</p>
+  </section>
+
+  <!-- faq -->
+  <section class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" data-i18n="q_eye">Questions</p>
+      <h2 data-i18n="q_h2">Frequently asked</h2>
+    </div>
+    <div class="faq-list">
+      <details class="faq"><summary data-i18n="q1">Do you take commission on bookings?</summary><p class="ans" data-i18n="q1a">No. Bookings you serve are commission-free, whether the client is a regular or found you on Bliss. You pay only your monthly plan.</p></details>
+      <details class="faq"><summary data-i18n="q2">How long does it take to get listed?</summary><p class="ans" data-i18n="q2a">About 30 minutes to register, add up to 10 services with photos and submit. We review and approve new listings, usually within 2 working days.</p></details>
+      <details class="faq"><summary data-i18n="q3">Can clients book a specific therapist or coach?</summary><p class="ans" data-i18n="q3a">Yes. Clients can pick a preferred therapist for services, or start from a coach's own calendar for sports and classes.</p></details>
+      <details class="faq"><summary data-i18n="q4">What if a client cancels last minute?</summary><p class="ans" data-i18n="q4a">Your cancellation policy is enforced automatically. Free cancellation closes 48 hours before the visit; inside that window the booking is locked and any deposit stays with you.</p></details>
+      <details class="faq"><summary data-i18n="q5">I already use another booking system. Is moving painful?</summary><p class="ans" data-i18n="q5a">We import your service menu and client list for you during setup, and your data stays exportable afterwards. Most shops switch without closing a single day.</p></details>
+      <details class="faq"><summary data-i18n="q6">Is Bliss in Chinese?</summary><p class="ans" data-i18n="q6a">Yes. Your storefront, menus and booking flow are in English and Traditional Chinese as standard, and partner support speaks Cantonese.</p></details>
+    </div>
+  </section>
+
+  <!-- final CTA -->
+  <section class="wrap" id="signup">
+    <div class="cta-panel">
+      <div class="petal-d1"></div><div class="petal-d2"></div>
+      <div class="inner">
+        <h2 data-i18n="cta_h2">Put your business on Bliss</h2>
+        <p data-i18n="cta_p">Register, add up to 10 services with photos, submit for approval. Live within days.</p>
+        <div class="row">
+          <button class="btn btn-ondark" id="signupBtn" data-i18n="cta_btn">Start your listing</button>
+          <span style="font-size:13.5px;color:rgba(254,254,255,.75)" data-i18n="cta_or">or message us on WhatsApp</span>
+        </div>
+        <form class="signup" id="signupForm">
+          <input type="text" id="suName" data-i18n-ph="su_name" placeholder="Business name" aria-label="Business name">
+          <select id="suVert" aria-label="Business type">
+            <option value="" data-i18n="su_pick">What do you run?</option>
+            <option value="wellness" data-i18n="su_w">Wellness (services)</option>
+            <option value="sports" data-i18n="su_s">Sports (classes and coaches)</option>
+            <option value="hybrid" data-i18n="su_h">Hybrid (both)</option>
+          </select>
+          <input type="tel" id="suPhone" data-i18n-ph="su_phone" placeholder="WhatsApp number" aria-label="WhatsApp number">
+          <button type="submit" class="btn btn-ondark" data-i18n="su_go">Continue</button>
+        </form>
+        <p class="signup-ok" id="signupOk" data-i18n="su_ok">Thanks. Our partner team will WhatsApp you within one working day. (Demo only, nothing was sent.)</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="wordmark" href="index.html" aria-label="Bliss home"><img src="assets/bliss-horizontal-periwinkle.svg" alt="bliss"></a>
+        <p style="font-size:13px;color:var(--muted);margin-top:10px;max-width:30ch" data-i18n="f_tag">Hong Kong's search and booking platform for wellness and sports.</p>
+      </div>
+      <div>
+        <h4 data-i18n="f_about">About Bliss</h4>
+        <a href="#" data-i18n="f_careers">Careers</a>
+        <a href="#" data-i18n="f_help">Help and support</a>
+        <a href="#" data-i18n="f_blog">Blog</a>
+      </div>
+      <div>
+        <h4 data-i18n="f_biz">For business</h4>
+        <a href="#signup" data-i18n="f_list">List your business</a>
+        <a href="#pricing" data-i18n="f_pricing">Plans and pricing</a>
+        <a href="#" data-i18n="f_support">Partner support</a>
+      </div>
+      <div>
+        <h4 data-i18n="f_legal">Legal</h4>
+        <a href="#" data-i18n="f_privacy">Privacy policy</a>
+        <a href="#" data-i18n="f_terms">Terms of service</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span data-i18n="legal_line">© 2026 Bliss Wellness · Hong Kong</span>
+      <span data-i18n="f_proto">Prototype for internal review · partners and quotes shown are sample data</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- i18n ---------- */
+const STR = {
+ en:{
+  skip:"Skip to content",
+  nav_pricing:"Pricing", nav_consumer:"For consumers", nav_cta:"List your business",
+  h_h1:"The booking platform built for Hong Kong wellness and sports",
+  h_sub:"Salons, spas, courts and studios run on Bliss. Take bookings 24/7, keep your regulars close and get found by new clients, in English and Chinese from day one.",
+  h_cta:"List your business", h_cta2:"See how it works",
+  h_note:"Set up in about 30 minutes. No sales calls, no setup fees.",
+  fact1:"commission on bookings you serve",
+  fact2b:"Per head", fact2:"monthly plans sized to your bookable team",
+  fact3:"bilingual storefront as standard",
+  fact4b:"KPay", fact4:"payments through our partner network",
+  m_eye:"Three ways to run", m_h2:"Whatever you book, Bliss speaks it",
+  m_p:"Wellness, sports or both. Your storefront and calendar follow how your business actually takes bookings, not the other way round.",
+  m1_h:"Wellness", m1_how:"Booked by service",
+  m1_p:"Clients pick a treatment, a time and a therapist. Menus of up to 10 services with durations and prices, shown in both languages.",
+  m1_fit_b:"Fits:", m1_fit:"massage, spa, nails, facials, TCM",
+  m2_flag:"The gap in HK", m2_h:"Sports", m2_how:"Booked by class or coach",
+  m2_p:"Sessions with spots left, coach profiles and coach-first booking. No HK platform aggregates sports venues today. Bliss is built for it.",
+  m2_fit_b:"Fits:", m2_fit:"pickleball, golf sim, PT, strength studios",
+  m3_h:"Hybrid", m3_how:"Services and classes, two tabs",
+  m3_p:"Studios that sell both privates and group classes get one storefront with both booking paths. Clients switch with a tap.",
+  m3_fit_b:"Fits:", m3_fit:"yoga, pilates, dance, mixed studios",
+  s_eye:"Your day, handled", s_h2:"One calendar for the whole shop",
+  s_p:"Everything you juggle in WhatsApp threads and paper diaries, in one place your whole team can see.",
+  f1_b:"Live calendar", f1_s:"Bookings land instantly, colour-coded per staff member",
+  f2_b:"Client records", f2_s:"Visit history, preferences and notes per client",
+  f3_b:"Reminders", f3_s:"Automatic WhatsApp and email confirmations cut no-shows",
+  f4_b:"Staff and coach schedules", f4_s:"Each person manages their own column and hours",
+  f5_b:"Promo codes", f5_s:"New-client offers and campaigns you control",
+  f6_b:"Simple reports", f6_s:"Bookings, revenue and repeat rate, by week or month",
+  mk_eye:"The marketplace", mk_h2:"New clients search. You show up.",
+  mk_p:"Bliss is where Hong Kong searches for wellness and sports by district, category and map. Your storefront works while you work.",
+  mk_l1:"<b>Found by district and category.</b> Sheung Wan massage, Kwun Tong pickleball, wherever you are.",
+  mk_l2:"<b>Reviews build your rating.</b> Verified clients only, no anonymous reviews.",
+  mk_l3:"<b>Zero commission.</b> A new client found on Bliss costs you the same as a regular: nothing per booking.",
+  w_eye:"Thinking of switching", w_h2:"The three questions every owner asks us",
+  w1_q:"“What happens to my client list if I ever leave?”",
+  w1_a:"<b>It stays yours.</b> Your clients, visit history and contact details export to a spreadsheet any time, no lock-in, no questions.",
+  w2_q:"“I don't have time to learn another system.”",
+  w2_a:"<b>Most shops are live in about 30 minutes.</b> We import your service menu and client list for you, and support is on WhatsApp in Cantonese or English.",
+  w3_q:"“Won't competitors on the platform see my clients?”",
+  w3_a:"<b>No. Your client list is private to you.</b> Other merchants never see who books you, what they paid or when they visit.",
+  p_eye:"Payments", p_h2:"Get paid before they even arrive",
+  p1_b:"Card and mobile payments via KPay", p1_s:"Our payments partner across Hong Kong retail",
+  p2_b:"VIP wallet keeps regulars coming back", p2_s:"Clients top up a prepaid balance with your shop and spend it down visit by visit",
+  p3_b:"Deposits protect your no-show slots", p3_s:"Optional per-service deposits, kept if a client cancels inside 48 hours",
+  c_eye:"Partner stories", c_h2:"One from each world",
+  c1_tag:"Wellness · Sheung Wan",
+  c1_q:"“Regulars book at midnight now. The phone finally stops ringing during treatments.”",
+  c1_who:"Foot and body massage, 4 therapists",
+  c1_stat_b:"Placeholder metric", c1_stat:"confirm with real partner data before investor use",
+  c2_tag:"Sports · Kwun Tong",
+  c2_q:"“Players book a coach, not just a slot. Our beginner clinics fill themselves.”",
+  c2_who:"Indoor pickleball, 3 coaches",
+  c2_stat_b:"Placeholder metric", c2_stat:"confirm with real partner data before investor use",
+  c3_tag:"Hybrid · Sai Ying Pun",
+  c3_q:"“Classes and privates finally live on one page. Clients stopped asking which link to use.”",
+  c3_who:"Group classes and private sessions",
+  c3_stat_b:"Placeholder metric", c3_stat:"confirm with real partner data before investor use",
+  pr_eye:"Pricing", pr_h2:"Pay for the people who take bookings",
+  pr_p:"No yearly contract. Your monthly plan is sized by how many staff, coaches or classes are open for booking, so a two-chair shop never pays like a chain.",
+  pr1_big:"Per head, monthly", pr1_b:"Sized to your team",
+  pr1_p:"Priced per bookable therapist, coach or class. Add or remove heads as your roster changes.",
+  pr2_big:"Tier discounts", pr2_b:"Cheaper as you grow",
+  pr2_p:"Larger teams unlock percentage discounts, for example around 10% off at 10 bookable staff.",
+  pr3_big:"CRM and loyalty", pr3_b:"3 months to start",
+  pr3_p:"The client-records and loyalty module is billed 3 months upfront when you join, then monthly.",
+  pr_note:"Exact per-head rates by vertical are being finalised and will appear here. Sports plans are priced above wellness plans.",
+  q_eye:"Questions", q_h2:"Frequently asked",
+  q1:"Do you take commission on bookings?",
+  q1a:"No. Bookings you serve are commission-free, whether the client is a regular or found you on Bliss. You pay only your monthly plan.",
+  q2:"How long does it take to get listed?",
+  q2a:"About 30 minutes to register, add up to 10 services with photos and submit. We review and approve new listings, usually within 2 working days.",
+  q3:"Can clients book a specific therapist or coach?",
+  q3a:"Yes. Clients can pick a preferred therapist for services, or start from a coach's own calendar for sports and classes.",
+  q4:"What if a client cancels last minute?",
+  q4a:"Your cancellation policy is enforced automatically. Free cancellation closes 48 hours before the visit; inside that window the booking is locked and any deposit stays with you.",
+  q5:"I already use another booking system. Is moving painful?",
+  q5a:"We import your service menu and client list for you during setup, and your data stays exportable afterwards. Most shops switch without closing a single day.",
+  q6:"Is Bliss in Chinese?",
+  q6a:"Yes. Your storefront, menus and booking flow are in English and Traditional Chinese as standard, and partner support speaks Cantonese.",
+  cta_h2:"Put your business on Bliss",
+  cta_p:"Register, add up to 10 services with photos, submit for approval. Live within days.",
+  cta_btn:"Start your listing", cta_or:"or message us on WhatsApp",
+  su_name:"Business name", su_pick:"What do you run?", su_w:"Wellness (services)", su_s:"Sports (classes and coaches)", su_h:"Hybrid (both)",
+  su_phone:"WhatsApp number", su_go:"Continue",
+  su_ok:"Thanks. Our partner team will WhatsApp you within one working day. (Demo only, nothing was sent.)",
+  f_tag:"Hong Kong's search and booking platform for wellness and sports.",
+  f_about:"About Bliss", f_careers:"Careers", f_help:"Help and support", f_blog:"Blog",
+  f_biz:"For business", f_list:"List your business", f_pricing:"Plans and pricing", f_support:"Partner support",
+  f_legal:"Legal", f_privacy:"Privacy policy", f_terms:"Terms of service",
+  legal_line:"© 2026 Bliss Wellness · Hong Kong",
+  f_proto:"Prototype for internal review · partners and quotes shown are sample data"
+ },
+ zh:{
+  skip:"跳至內容",
+  nav_pricing:"收費", nav_consumer:"顧客版", nav_cta:"商戶刊登",
+  h_h1:"為香港養生及運動商戶而設的預約平台",
+  h_sub:"美容院、水療、球場、工作室都在 Bliss 營運。全天候接受預約，留住熟客，讓新客搵到你。中英雙語，一開始就有。",
+  h_cta:"商戶刊登", h_cta2:"了解點運作",
+  h_note:"大約30分鐘完成設定。無推銷電話，無開通費。",
+  fact1:"你服務的預約，平台佣金",
+  fact2b:"按人頭", fact2:"月費計劃按可預約人手計算",
+  fact3:"雙語店面，標準配備",
+  fact4b:"KPay", fact4:"透過合作夥伴網絡收款",
+  m_eye:"三種營運模式", m_h2:"無論你點接預約，Bliss 都做到",
+  m_p:"養生、運動，或者兩樣都做。店面同日曆跟返你盤生意實際嘅預約方式。",
+  m1_h:"養生", m1_how:"按服務預約",
+  m1_p:"客人揀療程、時間同師傅。最多10項服務，附時長同價錢，雙語顯示。",
+  m1_fit_b:"適合：", m1_fit:"按摩、水療、美甲、美容、中醫",
+  m2_flag:"香港市場空缺", m2_h:"運動", m2_how:"按課堂或教練預約",
+  m2_p:"課堂剩餘名額、教練簡介、以教練行先嘅預約。香港至今無平台整合運動場地，Bliss 就係為此而建。",
+  m2_fit_b:"適合：", m2_fit:"匹克球、模擬高球、私人訓練、健身工作室",
+  m3_h:"混合", m3_how:"服務加課堂，兩個分頁",
+  m3_p:"同時做私人課同團體班嘅工作室，一個店面兩條預約路徑，客人一按即切換。",
+  m3_fit_b:"適合：", m3_fit:"瑜伽、普拉提、舞蹈、混合工作室",
+  s_eye:"日常營運，一手包辦", s_h2:"全店一個日曆",
+  s_p:"你平時喺 WhatsApp 同紙本簿仔處理嘅嘢，集中一處，全隊都睇到。",
+  f1_b:"即時日曆", f1_s:"預約即時顯示，按員工分色",
+  f2_b:"客人紀錄", f2_s:"每位客人嘅到訪紀錄、喜好同備註",
+  f3_b:"自動提醒", f3_s:"WhatsApp 同電郵自動確認，減少失約",
+  f4_b:"員工及教練排班", f4_s:"每人管理自己嘅欄位同時段",
+  f5_b:"優惠碼", f5_s:"新客優惠同推廣，由你控制",
+  f6_b:"簡明報表", f6_s:"預約、營業額、回頭率，按週或按月",
+  mk_eye:"市集平台", mk_h2:"新客喺度搜尋，你就喺度出現",
+  mk_p:"香港用戶喺 Bliss 按地區、類別同地圖搜尋養生同運動。你嘅店面全天候幫你做嘢。",
+  mk_l1:"<b>按地區同類別被搵到。</b>上環按摩、觀塘匹克球，你喺邊都得。",
+  mk_l2:"<b>評價建立你嘅評分。</b>只限已到訪客人，無匿名留言。",
+  mk_l3:"<b>零佣金。</b>喺 Bliss 搵到嘅新客，同熟客一樣：每單預約唔使畀錢。",
+  w_eye:"考慮轉會", w_h2:"每位老闆都會問嘅三條問題",
+  w1_q:"「如果我第日走，我啲客人資料點算？」",
+  w1_a:"<b>永遠係你嘅。</b>客人名單、到訪紀錄、聯絡方法隨時匯出做試算表，無綁定，無留難。",
+  w2_q:"「我無時間學多個系統。」",
+  w2_a:"<b>大部分商戶約30分鐘上線。</b>我哋幫你匯入服務菜單同客人名單，支援用 WhatsApp，廣東話英文都得。",
+  w3_q:"「平台上嘅同行會唔會見到我啲客？」",
+  w3_a:"<b>唔會。你嘅客人名單只有你見到。</b>其他商戶永遠睇唔到邊個預約你、畀咗幾多錢、幾時嚟。",
+  p_eye:"收款", p_h2:"客人未到，錢先到",
+  p1_b:"經 KPay 收信用卡及流動支付", p1_s:"我哋喺香港零售嘅收款合作夥伴",
+  p2_b:"VIP 錢包令熟客一直返嚟", p2_s:"客人喺你店預先增值，逐次消費扣減",
+  p3_b:"訂金保障你嘅時段", p3_s:"可選按服務收訂金，客人48小時內取消，訂金歸你",
+  c_eye:"合作商戶故事", c_h2:"三個界別，各一個故事",
+  c1_tag:"養生 · 上環",
+  c1_q:"「熟客宜家半夜都約到。做緊療程，電話終於唔會響。」",
+  c1_who:"足部及全身按摩，4位師傅",
+  c1_stat_b:"數據佔位", c1_stat:"投資者使用前，需以真實商戶數據確認",
+  c2_tag:"運動 · 觀塘",
+  c2_q:"「球員約嘅係教練，唔只係時段。新手班自己爆滿。」",
+  c2_who:"室內匹克球，3位教練",
+  c2_stat_b:"數據佔位", c2_stat:"投資者使用前，需以真實商戶數據確認",
+  c3_tag:"混合 · 西營盤",
+  c3_q:"「課堂同私人課終於喺同一頁。客人唔使再問用邊條連結。」",
+  c3_who:"團體班及私人課",
+  c3_stat_b:"數據佔位", c3_stat:"投資者使用前，需以真實商戶數據確認",
+  pr_eye:"收費", pr_h2:"按接預約嘅人手收費",
+  pr_p:"無年約。月費按可供預約嘅員工、教練或課堂數目計算，兩張凳嘅小店永遠唔會畀連鎖店嘅價。",
+  pr1_big:"按人頭月費", pr1_b:"按團隊人數計",
+  pr1_p:"按可預約嘅師傅、教練或課堂逐位計費。人手有變，隨時加減。",
+  pr2_big:"階梯折扣", pr2_b:"愈大愈平",
+  pr2_p:"團隊愈大，折扣愈高，例如10位可預約員工約有九折。",
+  pr3_big:"CRM 及會員系統", pr3_b:"入會時預繳3個月",
+  pr3_p:"客人紀錄及會員模組於加入時預繳3個月，之後按月收費。",
+  pr_note:"各界別嘅實際按人頭收費正在敲定，稍後喺呢度公佈。運動計劃定價高於養生計劃。",
+  q_eye:"常見問題", q_h2:"你可能想問",
+  q1:"預約會唔會抽佣？",
+  q1a:"唔會。你服務嘅預約一律免佣金，無論係熟客定喺 Bliss 搵到你嘅新客。你只需支付月費計劃。",
+  q2:"上架要幾耐？",
+  q2a:"大約30分鐘：登記、加入最多10項服務連相片、提交。我哋會審核新商戶，一般2個工作天內批核。",
+  q3:"客人可唔可以指定師傅或教練？",
+  q3a:"可以。服務可以揀指定師傅；運動同課堂可以由教練嘅日曆開始預約。",
+  q4:"客人臨時取消點算？",
+  q4a:"取消政策自動執行。到訪前48小時可免費取消；48小時內預約鎖定，訂金歸你。",
+  q5:"我用緊第二個系統，轉會辛唔辛苦？",
+  q5a:"設定時我哋幫你匯入服務菜單同客人名單，之後資料照樣隨時匯出。大部分商戶轉會期間一日都唔使閂門。",
+  q6:"Bliss 有冇中文？",
+  q6a:"有。店面、菜單同預約流程標準配備英文同繁體中文，商戶支援講廣東話。",
+  cta_h2:"將你盤生意放上 Bliss",
+  cta_p:"登記、加入最多10項服務連相片、提交審批。幾日內上線。",
+  cta_btn:"開始刊登", cta_or:"或者 WhatsApp 我哋",
+  su_name:"商戶名稱", su_pick:"你經營咩？", su_w:"養生（服務）", su_s:"運動（課堂及教練）", su_h:"混合（兩樣都有）",
+  su_phone:"WhatsApp 號碼", su_go:"繼續",
+  su_ok:"多謝。合作夥伴團隊會喺一個工作天內 WhatsApp 你。（示範用途，未有真正送出。）",
+  f_tag:"香港養生及運動搜尋預約平台。",
+  f_about:"關於 Bliss", f_careers:"招聘", f_help:"幫助及支援", f_blog:"網誌",
+  f_biz:"商戶專區", f_list:"商戶刊登", f_pricing:"計劃及收費", f_support:"商戶支援",
+  f_legal:"法律", f_privacy:"私隱政策", f_terms:"服務條款",
+  legal_line:"© 2026 Bliss Wellness · 香港",
+  f_proto:"內部審閱原型 · 所示商戶及引言為示範數據"
+ }
+};
+/* keys whose values contain markup */
+const HTML_KEYS = new Set(["mk_l1","mk_l2","mk_l3","w1_a","w2_a","w3_a"]);
+
+let lang='en';
+function applyLang(){
+  const dict=STR[lang];
+  document.documentElement.lang = lang==='en'?'en':'zh-Hant';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k=el.getAttribute('data-i18n');
+    if(!(k in dict)) return;
+    if(HTML_KEYS.has(k)) el.innerHTML=dict[k]; else el.textContent=dict[k];
+  });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+    const k=el.getAttribute('data-i18n-ph');
+    if(dict[k]) el.setAttribute('placeholder',dict[k]);
+  });
+  document.getElementById('langToggle').textContent = lang==='en'?'繁':'EN';
+}
+document.getElementById('langToggle').onclick=()=>{lang=lang==='en'?'zh':'en';applyLang();};
+
+/* sticky nav hairline */
+const head=document.getElementById('siteHead');
+addEventListener('scroll',()=>head.classList.toggle('scrolled',scrollY>8),{passive:true});
+
+/* signup stub: reveal the mini form, confirm locally (demo only, nothing sent) */
+const sBtn=document.getElementById('signupBtn'), sForm=document.getElementById('signupForm'), sOk=document.getElementById('signupOk');
+sBtn.onclick=()=>{sForm.classList.add('show');sBtn.style.display='none';document.getElementById('suName').focus();};
+sForm.onsubmit=e=>{
+  e.preventDefault();
+  if(!document.getElementById('suName').value.trim() || !document.getElementById('suVert').value || !document.getElementById('suPhone').value.trim()) return;
+  sForm.classList.remove('show');
+  sOk.classList.add('show');
+};
+
+applyLang();
+</script>
+</body>
+</html>
