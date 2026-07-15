@@ -155,7 +155,25 @@
   .px b{display:block;font-size:14.5px;margin-bottom:6px}
   .px p{font-size:13.5px;color:var(--muted)}
   .px .big{font-family:var(--serif);font-weight:600;font-size:24px;display:block;margin-bottom:6px;color:var(--ink)}
-  .price-chart .ph{height:300px;border-radius:16px}
+  .ptable-wrap{overflow-x:auto;background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:6px 10px}
+  .ptable{width:100%;border-collapse:collapse;min-width:680px}
+  .ptable th,.ptable td{padding:15px 16px;text-align:left;font-size:14px}
+  .ptable thead th{border-bottom:1px solid var(--hairline);vertical-align:top}
+  .ptable thead th b{display:block;font-size:21px;font-weight:800;letter-spacing:-.01em}
+  .ptable thead th:first-child{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);font-weight:700;padding-top:22px}
+  .ptable tbody th{font-weight:600;color:var(--ink-soft);font-size:13.5px;text-align:left;max-width:230px}
+  .ptable td{font-variant-numeric:tabular-nums;font-weight:600;white-space:nowrap}
+  .ptable tbody tr+tr th,.ptable tbody tr+tr td{border-top:1px solid var(--hairline)}
+  .ptable tr.hl th,.ptable tr.hl td{background:var(--peri-10)}
+  .ptable tr.hl td{font-family:var(--serif);font-weight:600;font-size:17.5px}
+  .ptable tr.hl th{color:var(--ink);font-weight:700}
+  .pill{display:inline-block;background:var(--peri-18);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;margin-top:5px;white-space:nowrap}
+  .pill.deep{background:var(--action);color:#FEFEFF}
+  .pill.std{background:transparent;border:1px solid var(--hairline);color:var(--muted)}
+  .pextra{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:20px}
+  .pex{background:var(--card);border:1px solid var(--hairline);border-radius:16px;padding:16px 20px}
+  .pex b{display:block;font-size:14.5px}
+  .pex span{font-size:13px;color:var(--muted)}
   .price-note{margin-top:14px;font-size:13px;color:var(--muted);max-width:70ch}
 
   /* ---------- faq ---------- */
@@ -197,7 +215,7 @@
     .hero-shot .ph{height:280px}
     .hero-shot .mini{right:8px}
     .facts .grid{grid-template-columns:1fr 1fr;gap:16px}
-    .model-grid,.worry-grid,.case-grid,.price-explain{grid-template-columns:1fr}
+    .model-grid,.worry-grid,.case-grid,.price-explain,.pextra{grid-template-columns:1fr}
     .soft-grid,.market-grid,.pay-grid{grid-template-columns:1fr}
     .market-grid .market-shot{order:2}
     .petal.p1{width:230px;height:230px;left:-95px;top:-95px}
@@ -448,14 +466,43 @@
       <p data-i18n="pr_p">No yearly contract. Your monthly plan is sized by how many staff, coaches or classes are open for booking, so a two-chair shop never pays like a chain.</p>
     </div>
     <div class="price-explain">
-      <div class="px"><span class="big" data-i18n="pr1_big">Per head, monthly</span><b data-i18n="pr1_b">Sized to your team</b><p data-i18n="pr1_p">Priced per bookable therapist, coach or class. Add or remove heads as your roster changes.</p></div>
-      <div class="px"><span class="big" data-i18n="pr2_big">Tier discounts</span><b data-i18n="pr2_b">Cheaper as you grow</b><p data-i18n="pr2_p">Larger teams unlock percentage discounts, for example around 10% off at 10 bookable staff.</p></div>
-      <div class="px"><span class="big" data-i18n="pr3_big">CRM and loyalty</span><b data-i18n="pr3_b">3 months to start</b><p data-i18n="pr3_p">The client-records and loyalty module is billed 3 months upfront when you join, then monthly.</p></div>
+      <div class="px"><span class="big" data-i18n="pr1_big">HK$90 per head</span><b data-i18n="pr1_b">Monthly, sized to your team</b><p data-i18n="pr1_p">Priced per bookable therapist, coach or class each month. Add or remove heads as your roster changes.</p></div>
+      <div class="px"><span class="big" data-i18n="pr2_big">Up to 20% off</span><b data-i18n="pr2_b">Cheaper as you grow</b><p data-i18n="pr2_p">10% off every head from 5 bookable staff, 20% off from 20.</p></div>
+      <div class="px"><span class="big" data-i18n="pr3_big">HK$1,350</span><b data-i18n="pr3_b">CRM and loyalty, first 3 months</b><p data-i18n="pr3_p">One upfront charge covers the client-records and loyalty module for your first 3 months.</p></div>
     </div>
-    <div class="price-chart">
-      <div class="ph"><span class="cam">📊</span><small><b>Pricing chart:</b> Suki's monthly per-head pricing table (WhatsApp, pending). Columns per vertical: Wellness / Sports / Hybrid; rows: per-head price, tier discounts, CRM module. Sports priced above wellness.</small></div>
+    <div class="ptable-wrap">
+      <table class="ptable">
+        <thead>
+          <tr>
+            <th scope="col" data-i18n="pt_head">Bookable staff</th>
+            <th scope="col"><b>1</b><span class="pill std" data-i18n="pt_std">Standard rate</span></th>
+            <th scope="col"><b>5</b><span class="pill" data-i18n="pt_d10">10% off</span></th>
+            <th scope="col"><b>10</b><span class="pill" data-i18n="pt_d10">10% off</span></th>
+            <th scope="col"><b>20</b><span class="pill deep" data-i18n="pt_d20">20% off</span></th>
+            <th scope="col"><b>30</b><span class="pill deep" data-i18n="pt_d20">20% off</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" data-i18n="pt_monthly">Monthly charge</th>
+            <td>HK$90</td><td>HK$405</td><td>HK$810</td><td>HK$1,440</td><td>HK$2,160</td>
+          </tr>
+          <tr>
+            <th scope="row" data-i18n="pt_crm">CRM and loyalty module, first 3 months</th>
+            <td>HK$1,350</td><td>HK$1,350</td><td>HK$1,350</td><td>HK$1,350</td><td>HK$1,350</td>
+          </tr>
+          <tr class="hl">
+            <th scope="row" data-i18n="pt_initial">First payment, month 1 plus CRM</th>
+            <td>HK$1,440</td><td>HK$1,755</td><td>HK$2,160</td><td>HK$2,790</td><td>HK$3,510</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <p class="price-note" data-i18n="pr_note">Exact per-head rates by vertical are being finalised and will appear here. Sports plans are priced above wellness plans.</p>
+    <div class="pextra">
+      <div class="pex"><b data-i18n="px1_b">Payment processing</b><span data-i18n="px1_s">4% per transaction through our KPay partner rails. This is card processing, not commission; your plan price is all Bliss charges.</span></div>
+      <div class="pex"><b data-i18n="px2_b">Own branded booking site</b><span data-i18n="px2_s">Optional premium add-on for established brands: your own domain and skin on the Bliss engine, HK$15,000 per year.</span></div>
+    </div>
+    <p class="price-note" data-i18n="pr_note">All plans use the standard HK$90 per bookable staff monthly rate; volume discounts apply automatically. Prices in Hong Kong dollars.</p>
   </section>
 
   <!-- faq -->
@@ -598,13 +645,20 @@ const STR = {
   c3_stat_b:"Placeholder metric", c3_stat:"confirm with real partner data before investor use",
   pr_eye:"Pricing", pr_h2:"Pay for the people who take bookings",
   pr_p:"No yearly contract. Your monthly plan is sized by how many staff, coaches or classes are open for booking, so a two-chair shop never pays like a chain.",
-  pr1_big:"Per head, monthly", pr1_b:"Sized to your team",
-  pr1_p:"Priced per bookable therapist, coach or class. Add or remove heads as your roster changes.",
-  pr2_big:"Tier discounts", pr2_b:"Cheaper as you grow",
-  pr2_p:"Larger teams unlock percentage discounts, for example around 10% off at 10 bookable staff.",
-  pr3_big:"CRM and loyalty", pr3_b:"3 months to start",
-  pr3_p:"The client-records and loyalty module is billed 3 months upfront when you join, then monthly.",
-  pr_note:"Exact per-head rates by vertical are being finalised and will appear here. Sports plans are priced above wellness plans.",
+  pr1_big:"HK$90 per head", pr1_b:"Monthly, sized to your team",
+  pr1_p:"Priced per bookable therapist, coach or class each month. Add or remove heads as your roster changes.",
+  pr2_big:"Up to 20% off", pr2_b:"Cheaper as you grow",
+  pr2_p:"10% off every head from 5 bookable staff, 20% off from 20.",
+  pr3_big:"HK$1,350", pr3_b:"CRM and loyalty, first 3 months",
+  pr3_p:"One upfront charge covers the client-records and loyalty module for your first 3 months.",
+  pt_head:"Bookable staff", pt_std:"Standard rate", pt_d10:"10% off", pt_d20:"20% off",
+  pt_monthly:"Monthly charge", pt_crm:"CRM and loyalty module, first 3 months",
+  pt_initial:"First payment, month 1 plus CRM",
+  px1_b:"Payment processing",
+  px1_s:"4% per transaction through our KPay partner rails. This is card processing, not commission; your plan price is all Bliss charges.",
+  px2_b:"Own branded booking site",
+  px2_s:"Optional premium add-on for established brands: your own domain and skin on the Bliss engine, HK$15,000 per year.",
+  pr_note:"All plans use the standard HK$90 per bookable staff monthly rate; volume discounts apply automatically. Prices in Hong Kong dollars.",
   q_eye:"Questions", q_h2:"Frequently asked",
   q1:"Do you take commission on bookings?",
   q1a:"No. Bookings you serve are commission-free, whether the client is a regular or found you on Bliss. You pay only your monthly plan.",
@@ -692,13 +746,20 @@ const STR = {
   c3_stat_b:"數據佔位", c3_stat:"投資者使用前，需以真實商戶數據確認",
   pr_eye:"收費", pr_h2:"按接預約嘅人手收費",
   pr_p:"無年約。月費按可供預約嘅員工、教練或課堂數目計算，兩張凳嘅小店永遠唔會畀連鎖店嘅價。",
-  pr1_big:"按人頭月費", pr1_b:"按團隊人數計",
-  pr1_p:"按可預約嘅師傅、教練或課堂逐位計費。人手有變，隨時加減。",
-  pr2_big:"階梯折扣", pr2_b:"愈大愈平",
-  pr2_p:"團隊愈大，折扣愈高，例如10位可預約員工約有九折。",
-  pr3_big:"CRM 及會員系統", pr3_b:"入會時預繳3個月",
-  pr3_p:"客人紀錄及會員模組於加入時預繳3個月，之後按月收費。",
-  pr_note:"各界別嘅實際按人頭收費正在敲定，稍後喺呢度公佈。運動計劃定價高於養生計劃。",
+  pr1_big:"每位 HK$90", pr1_b:"按月收費，按團隊人數計",
+  pr1_p:"按可預約嘅師傅、教練或課堂逐位每月計費。人手有變，隨時加減。",
+  pr2_big:"最多八折", pr2_b:"愈大愈平",
+  pr2_p:"5位可預約員工起每位九折，20位起八折。",
+  pr3_big:"HK$1,350", pr3_b:"CRM 及會員系統（首3個月）",
+  pr3_p:"一次過收取，涵蓋首3個月嘅客人紀錄及會員模組。",
+  pt_head:"可預約人手", pt_std:"標準價", pt_d10:"九折", pt_d20:"八折",
+  pt_monthly:"每月費用", pt_crm:"CRM及會員系統（首3個月）",
+  pt_initial:"首次付款（首月費用+CRM）",
+  px1_b:"收款手續費",
+  px1_s:"經KPay合作夥伴每筆交易收4%。呢啲係卡處理費，唔係佣金；Bliss只收計劃月費。",
+  px2_b:"自家品牌預約網站",
+  px2_s:"進階選購項目，適合成熟品牌：用自己嘅網域同設計行Bliss引擎，每年HK$15,000。",
+  pr_note:"所有計劃以標準每位HK$90月費計算，人數折扣自動生效。價格以港幣計。",
   q_eye:"常見問題", q_h2:"你可能想問",
   q1:"預約會唔會抽佣？",
   q1a:"唔會。你服務嘅預約一律免佣金，無論係熟客定喺 Bliss 搵到你嘅新客。你只需支付月費計劃。",
