@@ -202,9 +202,11 @@
   .frm .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
   .frm input.bad{border-color:var(--err)}
   .checks{margin-top:16px}
-  .check{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13.5px}
-  .check input{width:17px;height:17px;margin-top:2px;accent-color:var(--action)}
-  .check .hint{display:block;font-size:11.5px;color:var(--muted)}
+  /* .frm label sets block/uppercase for field labels; outrank it for checkbox rows */
+  .frm label.check,.check{display:flex;gap:12px;align-items:center;padding:8px 0;margin:0;
+    font-size:13.5px;font-weight:400;letter-spacing:normal;text-transform:none;color:var(--ink)}
+  .check input{width:17px;height:17px;margin:0;flex:none;accent-color:var(--action)}
+  .check .hint{display:block;font-size:11.5px;color:var(--muted);text-transform:none;letter-spacing:normal;font-weight:400}
   .login-hint{font-size:13px;color:var(--muted);margin-bottom:14px}
 
   /* confirm */
@@ -226,7 +228,6 @@
   .recap .kv b{font-weight:700}
   .succ-actions{display:flex;gap:10px;margin-top:16px}
   .succ-actions .btn{flex:1}
-  #s8.screen.on{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cpath d='M20 20 h34 a34 34 0 0 1 -34 34 z M66 20 h34 v34 a34 34 0 0 1 -34 -34 z M20 66 a34 34 0 0 1 34 34 h-34 z M66 66 a34 34 0 0 0 34 34 v-34 z' fill='none' stroke='rgba(141,163,212,.16)' stroke-width='1.2'/%3E%3C/svg%3E");border-radius:16px;padding:20px}
 
   /* bookings list */
   .bkg{padding:14px 0;border-bottom:1px solid var(--hairline)}
@@ -632,8 +633,8 @@ const preSvc = params.get('svc');
 if(preSvc && vendor.services && vendor.services.some(s=>s.id===preSvc)) S.picks[0].push(preSvc);
 
 const BOOKINGS = [
-  {vendor:"Fairway Indoor Golf 室內高球", what_en:"Sim bay · 1 hour", what_zh:"模擬球道 · 1小時", offsetH:30, status:"up"},
-  {vendor:"Jade Spa 玉泉水療", what_en:"Aromatherapy massage · 90 min", what_zh:"香薰按摩 · 90分鐘", offsetH:-90, status:"done"}
+  {vendor:"Fairway Indoor Golf 室內高球", what_en:"Sim bay · 1 hour", what_zh:"模擬球道 · 1小時", offsetH:30, time:"14:00", status:"up"},
+  {vendor:"Jade Spa 玉泉水療", what_en:"Aromatherapy massage · 90 min", what_zh:"香薰按摩 · 90分鐘", offsetH:-90, time:"11:00", status:"done"}
 ];
 
 /* ================= helpers ================= */
@@ -926,12 +927,14 @@ function renderS9(){
   const el=$('bkgList'); el.innerHTML='';
   BOOKINGS.forEach(b=>{
     const when=new Date(Date.now()+b.offsetH*3600e3);
+    const [bh,bm]=b.time.split(':').map(Number);
+    when.setHours(bh,bm,0,0);            /* snap to the booked slot so date and time agree */
     const canCancel = b.status==='up' && b.offsetH>48;
     const stCls = b.status==='up'?'up':b.status==='done'?'done':'off';
     const stTxt = b.status==='up'?T().st_up:b.status==='done'?T().st_done:T().st_off;
     const row=document.createElement('div'); row.className='bkg';
     row.innerHTML=`<div class="top"><h3>${b.vendor}</h3><span class="st ${stCls}">${stTxt}</span></div>
-      <p class="m">${fmtFull(when)} · ${lang==='en'?b.what_en:b.what_zh}</p>
+      <p class="m">${fmtFull(when)} · ${b.time} · ${lang==='en'?b.what_en:b.what_zh}</p>
       <div class="row-actions">${
         b.status!=='up' ? '' :
         canCancel
@@ -1086,9 +1089,11 @@ $('nextBtn').onclick=()=>{
   if(id==='s5'){ show('s6'); return; }
   if(id==='s6'){ if(!validateS6()) return; show('s7'); return; }
   if(id==='s7'){
+    const start=S.cls?S.cls.time:S.time;
+    const at=dayDate(S.day); const [sh,sm]=start.split(':').map(Number); at.setHours(sh,sm,0,0);
     BOOKINGS.unshift({vendor:vendor.name,
       what_en:priceLines().map(l=>l.t).join(', '), what_zh:priceLines().map(l=>l.t).join('、'),
-      offsetH: (S.day*24)+72, status:'up'});
+      offsetH:(at-Date.now())/3600e3, time:start, status:'up'});
     show('s8'); return;
   }
   if(id==='s8'||id==='s9'){ location.href='vendor.html'; }
