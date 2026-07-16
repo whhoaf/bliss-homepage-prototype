@@ -67,8 +67,11 @@
   .hero .cta-row{animation:rise .55s .14s ease-out both;margin-top:26px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
   .hero .cta-note{font-size:13px;color:var(--muted)}
   .hero-shot{animation:rise .55s .18s ease-out both;position:relative}
-  .hero-shot .ph{height:360px;border-radius:16px 16px 16px 72px;box-shadow:0 16px 44px rgba(55,50,75,.14)}
-  .hero-shot .mini{position:absolute;right:-18px;bottom:-26px;width:190px;height:150px;border-radius:12px;box-shadow:0 10px 26px rgba(55,50,75,.16)}
+  .hero-shot .shot{display:block;width:100%;height:360px;object-fit:cover;object-position:top left;background:var(--card);
+    border:1px solid var(--hairline);border-radius:16px 16px 16px 72px;box-shadow:0 16px 44px rgba(55,50,75,.14)}
+  /* notification PNG is translucent, so it needs an opaque plate or the calendar bleeds through it */
+  .hero-shot .mini{position:absolute;right:-14px;bottom:-34px;width:300px;height:auto;display:block;
+    background:#FEFEFF;padding:7px;border-radius:16px;box-shadow:0 12px 30px rgba(55,50,75,.20)}
 
   /* ---------- facts band ---------- */
   .facts{background:var(--panel);border-top:1px solid var(--hairline);border-bottom:1px solid var(--hairline);padding:26px 0}
@@ -109,11 +112,15 @@
   .feat svg{flex:none;width:22px;height:22px;stroke:var(--action);stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;margin-top:2px}
   .feat b{display:block;font-size:14.5px}
   .feat span{font-size:13px;color:var(--muted)}
-  .soft-shot .ph{height:380px;border-radius:14px 14px 14px 64px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
+  .soft-shot .shot{display:block;width:100%;height:380px;object-fit:cover;object-position:top left;background:var(--card);
+    border:1px solid var(--hairline);border-radius:14px 14px 14px 64px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
 
   /* ---------- marketplace ---------- */
   .market-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:center}
-  .market-shot .ph{height:340px;border-radius:14px 14px 64px 14px;box-shadow:0 12px 36px rgba(55,50,75,.12)}
+  /* real capture is a phone screen; centre it at its own proportions rather than cropping to a landscape box */
+  .market-shot{display:flex;justify-content:center}
+  .market-shot .phone{display:block;width:min(280px,100%);height:auto;border-radius:26px;
+    border:1px solid var(--hairline);box-shadow:0 18px 48px rgba(55,50,75,.18)}
   .market-copy ul{margin:14px 0 0 18px;font-size:14.5px}
   .market-copy li{margin-top:8px}
   .market-copy li b{font-weight:700}
@@ -270,8 +277,8 @@
         <p class="cta-note" style="margin-top:14px" data-i18n="h_note">Set up in about 30 minutes. No sales calls, no setup fees.</p>
       </div>
       <div class="hero-shot">
-        <div class="ph"><span class="cam">🖥️</span><small><b>Screenshot:</b> Bliss back office weekly calendar, colour-coded bookings per staff member, desktop browser frame. Landscape 16:10</small></div>
-        <div class="ph mini"><span class="cam">📱</span><small><b>Screenshot:</b> same booking arriving as a phone notification</small></div>
+        <img class="shot" src="assets/backoffice-day-calendar.jpg" alt="Bliss back office day view: one column per therapist, bookings laid out across the day" width="1400" height="995">
+        <img class="mini" src="assets/booking-notification.png" alt="Phone notification: you got a new booking" width="640" height="282">
       </div>
     </div>
   </section>
@@ -331,7 +338,7 @@
       <div>
         <div class="sec-head" style="margin-bottom:18px">
           <p class="eyebrow" data-i18n="s_eye">Your day, handled</p>
-          <h2 data-i18n="s_h2">One calendar for the whole shop</h2>
+          <h2 data-i18n="s_h2">One screen for the whole shop</h2>
           <p data-i18n="s_p">Everything you juggle in WhatsApp threads and paper diaries, in one place your whole team can see.</p>
         </div>
         <div class="feat-list">
@@ -344,7 +351,7 @@
         </div>
       </div>
       <div class="soft-shot">
-        <div class="ph"><span class="cam">🖥️</span><small><b>Screenshot:</b> back office day view, one column per therapist/coach, a booking being dragged to a new slot. Portrait 4:5</small></div>
+        <img class="shot" src="assets/backoffice-dashboard.jpg" alt="Bliss back office dashboard: member analysis, sales totals and top services at a glance" width="1400" height="995">
       </div>
     </div>
   </section>
@@ -353,7 +360,7 @@
   <section class="wrap">
     <div class="market-grid">
       <div class="market-shot">
-        <div class="ph"><span class="cam">📱</span><small><b>Screenshot:</b> Bliss consumer homepage on a phone, search bar plus vendor cards, your shop visible in results. Portrait 4:5</small></div>
+        <img class="phone" src="assets/app-home-screen.jpg" alt="Bliss consumer app home screen on a phone: points, new-client offer and nearby venue results" width="620" height="1344">
       </div>
       <div class="market-copy">
         <div class="sec-head" style="margin-bottom:6px">
@@ -606,7 +613,7 @@ const STR = {
   m3_h:"Hybrid", m3_how:"Services and classes, two tabs",
   m3_p:"Studios that sell both privates and group classes get one storefront with both booking paths. Clients switch with a tap.",
   m3_fit_b:"Fits:", m3_fit:"yoga, pilates, dance, mixed studios",
-  s_eye:"Your day, handled", s_h2:"One calendar for the whole shop",
+  s_eye:"Your day, handled", s_h2:"One screen for the whole shop",
   s_p:"Everything you juggle in WhatsApp threads and paper diaries, in one place your whole team can see.",
   f1_b:"Live calendar", f1_s:"Bookings land instantly, colour-coded per staff member",
   f2_b:"Client records", f2_s:"Visit history, preferences and notes per client",
@@ -707,7 +714,7 @@ const STR = {
   m3_h:"混合", m3_how:"服務加課堂，兩個分頁",
   m3_p:"同時做私人課同團體班嘅工作室，一個店面兩條預約路徑，客人一按即切換。",
   m3_fit_b:"適合：", m3_fit:"瑜伽、普拉提、舞蹈、混合工作室",
-  s_eye:"日常營運，一手包辦", s_h2:"全店一個日曆",
+  s_eye:"日常營運，一手包辦", s_h2:"全店一個畫面",
   s_p:"你平時喺 WhatsApp 同紙本簿仔處理嘅嘢，集中一處，全隊都睇到。",
   f1_b:"即時日曆", f1_s:"預約即時顯示，按員工分色",
   f2_b:"客人紀錄", f2_s:"每位客人嘅到訪紀錄、喜好同備註",
